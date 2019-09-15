@@ -14,10 +14,15 @@ public class ShoppingCart {
         cart = new HashMap<>();
     }
 
-    protected void put(Product product, Integer quantity) {
-        cart.put(product, (cart.containsKey(product)) ?
-                ((cart.get(product) + quantity))
-                :
-                quantity);
+    public void put(Product product, Integer quantity) {
+
+        cart.put(product,
+                (cart.containsKey(product)) ?               //Does key exist?
+                        (cart.get(product) + quantity > -1) ?      //Will the quantity be non-negative?
+                                ((cart.get(product) + quantity))  //If both true increase quantity in cart value
+                                :
+                                0                               //If sum is negative put value 0
+                        :
+                        quantity);                                  //If new key, put value quantity
     }
 }

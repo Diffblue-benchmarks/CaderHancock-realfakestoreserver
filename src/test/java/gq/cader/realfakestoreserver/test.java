@@ -16,7 +16,8 @@ public class test {
         shop.put(p, 10);
         shop.put(p, -5);
         assertTrue(shop.getCart().get(p).equals(6));
-        System.out.println(p.getName());
+        shop.put(p, -7);
+        assertTrue(shop.getCart().get(p).equals(0));
     }
 
 }
