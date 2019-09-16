@@ -10,11 +10,14 @@ import java.util.List;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer customerId;
+    @Column(name = "FIRST_NAME")
     private String firstName;
+    @Column(name = "LAST_NAME")
     private String lastName;
     @OneToOne
     private ShoppingCart shoppingCart;
     @OneToMany(targetEntity = Address.class, fetch = FetchType.EAGER)
+    @Column(name = "ADDRESSES")
     private List<Address> addresses;
 }

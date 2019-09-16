@@ -15,9 +15,9 @@ public class test {
         shop.put(p, 1);
         shop.put(p, 10);
         shop.put(p, -5);
-        assertTrue(shop.getCart().get(p).equals(6));
+        assertTrue(shop.getProductQuantityMap().get(p).equals(6));
         shop.put(p, -7);
-        assertTrue(shop.getCart().get(p).equals(0));
+        assertTrue(shop.getProductQuantityMap().get(p).equals(0));
     }
 
 }

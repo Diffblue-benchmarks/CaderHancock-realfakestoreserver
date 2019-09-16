@@ -1,11 +1,11 @@
 package gq.cader.realfakestoreserver;
 
 import lombok.Data;
-import lombok.Generated;
 
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.DoubleStream;
 
 @Data
 @Entity
@@ -16,18 +16,26 @@ public class ShoppingCart {
     private Integer id;
     @ElementCollection(targetClass = Integer.class)
     @MapKeyColumn(name = "Product_In_Cart")
-    private Map<Product, Integer> cart;
+    private Map<Product, Integer> productQuantityMap;
 
     public ShoppingCart() {
-        cart = new HashMap<>();
+        productQuantityMap = new HashMap<>();
     }
 
+    public Double getTotalPrice() {
+        return productQuantityMap.entrySet()
+                .stream()
+                .flatMapToDouble(
+                        x -> DoubleStream.of(
+                                x.getKey().getPrice() * x.getValue()))
+                .sum();
+    }
     public void put(Product product, Integer quantity) {
 
-        cart.put(product,
-                (cart.containsKey(product)) ?               //Does key exist?
-                        (cart.get(product) + quantity >= 0) ?      //Will the quantity be non-negative?
-                                ((cart.get(product) + quantity))  //If both true increase quantity in cart value
+        productQuantityMap.put(product,
+                (productQuantityMap.containsKey(product)) ?               //Does key exist?
+                        (productQuantityMap.get(product) + quantity >= 0) ?      //Will the quantity be non-negative?
+                                ((productQuantityMap.get(product) + quantity))  //If both true increase quantity in cart value
                                 :
                                 0                               //If sum is negative put value 0
                         :

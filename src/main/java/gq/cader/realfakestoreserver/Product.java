@@ -14,10 +14,12 @@ class Product {
     @Id
     @GeneratedValue(strategy = AUTO)
     private Integer productId;
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
-    @Column(name = "price")
-    private double price;
+    @Column(name = "PRICE")
+    private Double price;
+    @Column(name = "DESCRIPTION")
+    private String description;
     @Column(name = "IMGPATH")
     private String imgPath;
     @Column(name = "NUMININVENTORY")
