@@ -8,6 +8,8 @@ public class RealfakestoreserverApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RealfakestoreserverApplication.class, args);
+
+
     }
 
 }
