@@ -10,14 +10,19 @@ import static javax.persistence.GenerationType.AUTO;
 
 @Data
 @Entity
-public class Product {
+class Product {
     @Id
     @GeneratedValue(strategy = AUTO)
     private Integer productId;
+    @Column(name = "name")
     private String name;
+    @Column(name = "price")
     private double price;
+    @Column(name = "IMGPATH")
     private String imgPath;
+    @Column(name = "NUMININVENTORY")
     private int numInInventory;
+    @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
 }
