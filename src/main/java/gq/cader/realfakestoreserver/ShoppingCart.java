@@ -12,7 +12,7 @@ import java.util.stream.DoubleStream;
 public class ShoppingCart {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ElementCollection(targetClass = Integer.class)
     @MapKeyColumn(name = "Product_In_Cart")
