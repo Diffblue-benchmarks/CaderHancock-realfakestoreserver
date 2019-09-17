@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 @Data
@@ -30,15 +31,22 @@ public class ShoppingCart {
                                 x.getKey().getPrice() * x.getValue()))
                 .sum();
     }
-    public void put(Product product, Integer quantity) {
+
+    public void updateProductQuantityByDelta(Product product, Integer quantity) {
 
         productQuantityMap.put(product,
                 (productQuantityMap.containsKey(product)) ?               //Does key exist?
-                        (productQuantityMap.get(product) + quantity >= 0) ?      //Will the quantity be non-negative?
-                                ((productQuantityMap.get(product) + quantity))  //If both true increase quantity in cart value
-                                :
-                                0                               //If sum is negative put value 0
+                        ((productQuantityMap.get(product) + quantity))  //If true increase quantity in cart value
                         :
                         quantity);                                  //If new key, put value quantity
+        removeProductsWithZeroQuantity();
+
+    }
+
+    private void removeProductsWithZeroQuantity() {
+        this.productQuantityMap = this.productQuantityMap.entrySet()
+                .stream()
+                .filter(x -> x.getValue() > 0)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }
