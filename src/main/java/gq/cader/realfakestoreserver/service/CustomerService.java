@@ -30,7 +30,7 @@ public class CustomerService {
         Customer customer = new Customer();
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
-        customer.setShoppingCart(Optional.of(new ShoppingCart()));
+        customer.setShoppingCart(new ShoppingCart());
         customerRepository.save(customer);
         LOG.info("Created Customer: " + customer.toString());
     }

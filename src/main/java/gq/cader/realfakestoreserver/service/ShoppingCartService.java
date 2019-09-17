@@ -25,7 +25,7 @@ public class ShoppingCartService {
     }
 
     protected void setShoppingCartByCustomerReference(Customer customer) {
-        this.shoppingCart = customer.getShoppingCart()
+        this.shoppingCart = Optional.of(customer.getShoppingCart())
                 .orElseGet(ShoppingCart::new);
 
         this.shoppingCartProductQuantityMap = shoppingCart.getProductQuantityMap();
@@ -68,7 +68,8 @@ public class ShoppingCartService {
     }
 
     public void assignShoppingCartToCustomer(Customer customer) {
-        customer.setShoppingCart(Optional.of(this.shoppingCart));
+        customer.setShoppingCart(Optional.of(this.shoppingCart)
+                .orElseGet(ShoppingCart::new));
     }
 
     private void removeProductsWithZeroQuantity() {
