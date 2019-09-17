@@ -1,4 +1,4 @@
-package gq.cader.realfakestoreserver;
+package gq.cader.realfakestoreserver.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +11,13 @@ import java.util.Optional;
 public class CustomerService {
 
     private CustomerRepository customerRepository;
+    private ProductService productService;
     private Logger LOG = LoggerFactory.getLogger(CustomerService.class);
 
     @Autowired
-    CustomerService(CustomerRepository customerRepository) {
+    CustomerService(CustomerRepository customerRepository, ProductService productService) {
         this.customerRepository = customerRepository;
+        this.productService = productService;
     }
 
     void createCustomer(String firstName, String lastName) {
@@ -26,6 +28,7 @@ public class CustomerService {
         customerRepository.save(customer);
         LOG.info("Created Customer: " + customer.toString());
     }
+
 
     Customer findById(Integer id) {
 
