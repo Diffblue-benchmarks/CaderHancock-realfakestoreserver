@@ -32,6 +32,9 @@ public class ShoppingCart {
                 .sum();
     }
 
+    public void updateProductQuantity(Product product, Integer quantity) {
+        productQuantityMap.put(product, quantity);
+    }
     public void updateProductQuantityByDelta(Product product, Integer quantity) {
 
         productQuantityMap.put(product,
