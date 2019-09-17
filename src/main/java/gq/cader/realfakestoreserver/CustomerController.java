@@ -6,18 +6,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("api/customers")
 public class CustomerController {
 
+    private CustomerService customerService;
+
     @Autowired
-    private CustomerRepository customerRepository;
+    CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @GetMapping(value = "findByCustomerId/{id}", produces = "application/json")
     public Customer findByCustomerId(@PathVariable Integer id) {
-        Optional<Customer> result = customerRepository.findById(id);
-        return result.orElse(null);
+        return customerService.findById(id);
     }
 }
