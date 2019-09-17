@@ -15,7 +15,7 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ElementCollection(targetClass = Integer.class)
-    @MapKeyColumn(name = "Product_In_Cart")
+    @MapKeyColumn(name = "PRODUCT")
     private Map<Product, Integer> productQuantityMap;
 
     public ShoppingCart() {
