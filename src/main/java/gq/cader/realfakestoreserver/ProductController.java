@@ -29,6 +29,7 @@ public class ProductController {
         return result.orElse(null);
 
     }
+//    @PutMapping(value = "/putProduct")
 
     @GetMapping(value = "/findByPartialString/{query}", produces = "application/json")
     public List<Product> findByPartialString(@PathVariable String query) {
