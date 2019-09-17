@@ -12,9 +12,9 @@ import java.util.Optional;
 @Service
 public class CustomerService {
 
-    private CustomerRepository customerRepository;
-    private ProductService productService;
-    private Logger LOG = LoggerFactory.getLogger(CustomerService.class);
+    private final CustomerRepository customerRepository;
+    private final ProductService productService;
+    private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
 
     @Autowired
     CustomerService(CustomerRepository customerRepository, ProductService productService) {
@@ -31,13 +31,16 @@ public class CustomerService {
         LOG.info("Created Customer: " + customer.toString());
     }
 
+    public void checkOutCustomer(Integer customerId) {
 
-    public Customer findById(Integer id) {
+    }
 
-        LOG.info("Querying CustomerRepository for ID:" + id.toString());
-        Optional<Customer> result = customerRepository.findById(id);
+    public Customer findById(Integer customerId) {
+
+        LOG.info("Querying CustomerRepository for ID:" + customerId.toString());
+        Optional<Customer> result = customerRepository.findById(customerId);
         return result.orElseGet(() -> {
-            LOG.warn("ID:" + id.toString() + " not found. Returning empty Customer.");
+            LOG.warn("ID:" + customerId.toString() + " not found. Returning empty Customer.");
             return new Customer();
         });
     }

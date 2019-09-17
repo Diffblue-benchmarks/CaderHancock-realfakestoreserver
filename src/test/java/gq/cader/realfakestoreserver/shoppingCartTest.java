@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class test {
+public class shoppingCartTest {
 
     @Test
     public void testCart() {

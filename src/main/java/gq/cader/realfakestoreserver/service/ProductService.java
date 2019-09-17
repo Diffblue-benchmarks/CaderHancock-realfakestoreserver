@@ -12,8 +12,8 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
-    private ProductRepository productRepository;
-    private Logger LOG = LoggerFactory.getLogger(ProductService.class);
+    private final ProductRepository productRepository;
+    private static final Logger LOG = LoggerFactory.getLogger(ProductService.class);
 
     @Autowired
     ProductService(ProductRepository productRepository) {
