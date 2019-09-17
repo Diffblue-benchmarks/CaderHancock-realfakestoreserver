@@ -34,14 +34,16 @@ public class ShoppingCart {
 
     public void updateProductQuantity(Product product, Integer quantity) {
         productQuantityMap.put(product, quantity);
+        removeProductsWithZeroQuantity();
     }
-    public void updateProductQuantityByDelta(Product product, Integer quantity) {
+
+    public void updateProductQuantityByDelta(Product product, Integer delta) {
 
         productQuantityMap.put(product,
                 (productQuantityMap.containsKey(product)) ?               //Does key exist?
-                        ((productQuantityMap.get(product) + quantity))  //If true increase quantity in cart value
+                        ((productQuantityMap.get(product) + delta))  //If true apply delta to productQuantityMap value
                         :
-                        quantity);                                  //If new key, put value quantity
+                        delta);                                  //If new key, put delta as quantity
         removeProductsWithZeroQuantity();
 
     }
