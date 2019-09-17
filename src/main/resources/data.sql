@@ -2,9 +2,9 @@ INSERT INTO product (PRODUCT_ID, name, price,  description, imgPath, numInInvent
  ('1', 'Box Fan', '100', 'The best fan', 'null', '1', 'HOME'),
   ('2', 'Clean Code', '10', 'By Uncle Bob', 'null', '100', 'BOOKS');
 INSERT INTO SHOPPING_CART (ID) VALUES ('1'),('2');
-INSERT INTO CUSTOMER (CUSTOMER_ID, FIRST_NAME, LAST_NAME, SHOPPING_CART_ID ) VALUES
-    ('1', 'John', 'Doe', '1'),
-    ('2', 'Jane', 'Doe', '2');
+INSERT INTO CUSTOMER (CUSTOMER_ID, FIRST_NAME, LAST_NAME, SHOPPING_CART_ID, EMAIL) VALUES
+    ('1', 'John', 'Doe', '1', 'John@fake.com'),
+    ('2', 'Jane', 'Doe', '2', 'Jane@fake.com');
 INSERT INTO SHOPPING_CART_PRODUCT_QUANTITY_MAP (SHOPPING_CART_ID, PRODUCT_QUANTITY_MAP, PRODUCT_QUANTITY_MAP_KEY ) VALUES
     ('1','1','1'),
     ('1','3','2'),

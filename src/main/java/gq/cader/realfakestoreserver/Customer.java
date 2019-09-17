@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class Customer {
+class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer customerId;
@@ -20,4 +20,6 @@ public class Customer {
     @OneToMany(targetEntity = Address.class, fetch = FetchType.EAGER)
     @Column(name = "ADDRESSES")
     private List<Address> addresses;
+    @Column(name = "EMAIL")
+    private String email;
 }
