@@ -30,6 +30,7 @@ public class ProductController {
     }
 //    @PutMapping(value = "/putProduct")
 
+    //TODO Refactor this logic into Service
     @GetMapping(value = "/findByPartialString/{query}", produces = "application/json")
     public List<Product> findByPartialString(@PathVariable String query) {
         LOG.info("Searching for " + query);
