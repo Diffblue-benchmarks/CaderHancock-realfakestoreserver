@@ -1,5 +1,7 @@
 package gq.cader.realfakestoreserver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +11,7 @@ import java.util.Optional;
 public class CustomerService {
 
     private CustomerRepository customerRepository;
+    private Logger LOG = LoggerFactory.getLogger(CustomerService.class);
 
     @Autowired
     CustomerService(CustomerRepository customerRepository) {
@@ -21,11 +24,17 @@ public class CustomerService {
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
         customerRepository.save(customer);
+        LOG.info("Created Customer: " + customer.toString());
     }
 
     Customer findById(Integer id) {
+
+        LOG.info("Querying CustomerRepository for ID:" + id.toString());
         Optional<Customer> result = customerRepository.findById(id);
-        return result.orElseGet(Customer::new);
+        return result.orElseGet(() -> {
+            LOG.warn("ID:" + id.toString() + " not found. Returning empty Customer.");
+            return new Customer();
+        });
     }
 
 }

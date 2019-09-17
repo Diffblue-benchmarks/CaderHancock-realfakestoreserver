@@ -20,8 +20,11 @@ public class ProductService {
 
     Product findById(Integer id) {
 
-        LOG.info("Searching for productId " + id);
+        LOG.info("Querying ProductRepository for productId:" + id);
         Optional<Product> result = productRepository.findByProductId(id);
-        return result.orElseGet(Product::new);
+        return result.orElseGet(() -> {
+            LOG.warn("ID:" + id.toString() + " not found. Returning empty Product.");
+            return new Product();
+        });
     }
 }
