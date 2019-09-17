@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -18,18 +17,16 @@ public class ProductController {
 
     private ProductRepository productRepository;
     private Logger LOG = LoggerFactory.getLogger(ProductController.class);
+    private ProductService productService;
 
     @Autowired
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
     @GetMapping(value = "/findByProductId/{id}", produces = "application/json")
     public Product findByProductId(@PathVariable Integer id) {
-        LOG.info("Searching for productId " + id);
 
-        Optional<Product> result = productRepository.findByProductId(id);
-        return result.orElse(null);
-
+        return productService.findById(id);
     }
 //    @PutMapping(value = "/putProduct")
 
