@@ -16,11 +16,13 @@ import java.util.stream.Collectors;
 @RequestMapping("api/products")
 public class ProductController {
 
-    @Autowired
     private ProductRepository productRepository;
+    private Logger LOG = LoggerFactory.getLogger(ProductController.class);
 
-    Logger LOG = LoggerFactory.getLogger(ProductController.class);
-
+    @Autowired
+    public ProductController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
     @GetMapping(value = "/findByProductId/{id}", produces = "application/json")
     public Product findByProductId(@PathVariable Integer id) {
         LOG.info("Searching for productId " + id);
