@@ -5,8 +5,6 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 @Data
 @Entity
@@ -23,35 +21,7 @@ public class ShoppingCart {
         productQuantityMap = new HashMap<>();
     }
 
-    public Double getTotalPrice() {
-        return productQuantityMap.entrySet()
-                .stream()
-                .flatMapToDouble(
-                        x -> DoubleStream.of(
-                                x.getKey().getPrice() * x.getValue()))
-                .sum();
-    }
 
-    public void updateProductQuantity(Product product, Integer quantity) {
-        productQuantityMap.put(product, quantity);
-        removeProductsWithZeroQuantity();
-    }
 
-    public void updateProductQuantityByDelta(Product product, Integer delta) {
 
-        productQuantityMap.put(product,
-                (productQuantityMap.containsKey(product)) ?               //Does key exist?
-                        ((productQuantityMap.get(product) + delta))  //If true apply delta to productQuantityMap value
-                        :
-                        delta);                                  //If new key, put delta as quantity
-        removeProductsWithZeroQuantity();
-
-    }
-
-    private void removeProductsWithZeroQuantity() {
-        this.productQuantityMap = this.productQuantityMap.entrySet()
-                .stream()
-                .filter(x -> x.getValue() > 0)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
 }

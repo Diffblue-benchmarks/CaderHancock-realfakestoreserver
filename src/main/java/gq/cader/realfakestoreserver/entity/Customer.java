@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Entity
@@ -17,7 +18,7 @@ class Customer {
     @Column(name = "LAST_NAME")
     private String lastName;
     @OneToOne
-    private ShoppingCart shoppingCart;
+    private Optional<ShoppingCart> shoppingCart;
     @OneToMany(targetEntity = Address.class, fetch = FetchType.EAGER)
     @Column(name = "ADDRESSES")
     private List<Address> addresses;

@@ -1,6 +1,7 @@
 package gq.cader.realfakestoreserver.service;
 
 import gq.cader.realfakestoreserver.entity.Customer;
+import gq.cader.realfakestoreserver.entity.ShoppingCart;
 import gq.cader.realfakestoreserver.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +15,14 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final ProductService productService;
+    private ShoppingCartService shoppingCartService; //Not final so
     private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
 
     @Autowired
-    CustomerService(CustomerRepository customerRepository, ProductService productService) {
+    CustomerService(CustomerRepository customerRepository, ProductService productService, ShoppingCartService shoppingCartService) {
         this.customerRepository = customerRepository;
         this.productService = productService;
+        this.shoppingCartService = shoppingCartService;
     }
 
     void createCustomer(String firstName, String lastName) {
@@ -27,6 +30,7 @@ public class CustomerService {
         Customer customer = new Customer();
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
+        customer.setShoppingCart(Optional.of(new ShoppingCart()));
         customerRepository.save(customer);
         LOG.info("Created Customer: " + customer.toString());
     }
