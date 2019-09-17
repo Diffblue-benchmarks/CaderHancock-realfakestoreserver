@@ -1,5 +1,7 @@
-package gq.cader.realfakestoreserver;
+package gq.cader.realfakestoreserver.service;
 
+import gq.cader.realfakestoreserver.entity.Product;
+import gq.cader.realfakestoreserver.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    Product findById(Integer id) {
+    public Product findById(Integer id) {
 
         LOG.info("Querying ProductRepository for productId:" + id);
         Optional<Product> result = productRepository.findByProductId(id);

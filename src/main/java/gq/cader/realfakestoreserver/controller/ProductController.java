@@ -1,5 +1,8 @@
-package gq.cader.realfakestoreserver;
+package gq.cader.realfakestoreserver.controller;
 
+import gq.cader.realfakestoreserver.entity.Product;
+import gq.cader.realfakestoreserver.repository.ProductRepository;
+import gq.cader.realfakestoreserver.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

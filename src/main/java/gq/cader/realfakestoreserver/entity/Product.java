@@ -1,14 +1,14 @@
-package gq.cader.realfakestoreserver;
+package gq.cader.realfakestoreserver.entity;
 
 import lombok.Data;
 
-import javax.persistence.Id;
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.AUTO;
 
 @Data
 @Entity
+public
 class Product {
     @Id
     @GeneratedValue(strategy = AUTO)

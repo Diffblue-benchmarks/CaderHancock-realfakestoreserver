@@ -1,4 +1,4 @@
-package gq.cader.realfakestoreserver;
+package gq.cader.realfakestoreserver.entity;
 
 import lombok.Data;
 
@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 @Entity
+public
 class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

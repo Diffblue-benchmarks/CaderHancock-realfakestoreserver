@@ -1,5 +1,7 @@
 package gq.cader.realfakestoreserver.service;
 
+import gq.cader.realfakestoreserver.entity.Customer;
+import gq.cader.realfakestoreserver.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class CustomerService {
     }
 
 
-    Customer findById(Integer id) {
+    public Customer findById(Integer id) {
 
         LOG.info("Querying CustomerRepository for ID:" + id.toString());
         Optional<Customer> result = customerRepository.findById(id);

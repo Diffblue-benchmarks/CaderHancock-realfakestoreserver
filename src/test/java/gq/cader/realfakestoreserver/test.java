@@ -1,9 +1,10 @@
 package gq.cader.realfakestoreserver;
 
+import gq.cader.realfakestoreserver.entity.Product;
+import gq.cader.realfakestoreserver.entity.ShoppingCart;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class test {
 
@@ -12,9 +13,9 @@ public class test {
         Product p1 = new Product();
         Product p = new Product();
         p.setName("ok");
-        p.setPrice(12.3);
+        p.setPrice(1.0);
         p1.setName("ko");
-        p1.setPrice(45.6);
+        p1.setPrice(1.0);
         ShoppingCart shop = new ShoppingCart();
         shop.put(p, 1);
         shop.put(p, 10);
@@ -24,7 +25,7 @@ public class test {
         shop.put(p, -7);
         assertTrue(shop.getProductQuantityMap().get(p).equals(0));
         shop.put(p, 1);
-//        assertTrue(shop.getTotalPrice() == 57.9);
+        assertTrue(shop.getTotalPrice().doubleValue() == 2.0);
     }
 
 }
