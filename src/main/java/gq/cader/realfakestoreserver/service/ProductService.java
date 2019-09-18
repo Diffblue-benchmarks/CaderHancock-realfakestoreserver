@@ -28,5 +28,10 @@ public class ProductService {
             LOG.warn("ID:" + id.toString() + " not found. Returning empty Product.");
             return new Product();
         });
+
+    }
+
+    public Product postNewProduct(Product product) {
+        return productRepository.save(product);
     }
 }

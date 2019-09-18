@@ -55,7 +55,8 @@ public class ShoppingCartService {
     }
 
     public Integer getProductQuantity(Product product) {
-        return shoppingCartProductQuantityMap.get(product);
+        return Optional.of(shoppingCartProductQuantityMap.get(product))
+                .orElse(0);
     }
 
     public Double getTotalPrice() {

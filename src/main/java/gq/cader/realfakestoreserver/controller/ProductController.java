@@ -6,10 +6,7 @@ import gq.cader.realfakestoreserver.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +28,6 @@ public class ProductController {
 
         return productService.findById(id);
     }
-//    @PutMapping(value = "/putProduct")
 
     //TODO Refactor this logic into Service
     @GetMapping(value = "/findByPartialString/{query}", produces = "application/json")
@@ -44,6 +40,11 @@ public class ProductController {
                         .contains(query.toLowerCase()))
                 .sorted((x, y) -> x.getName().compareToIgnoreCase(y.getName()))
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/")
+    public Product postNewProduct(@RequestBody Product product) {
+        return productService.postNewProduct(product);
     }
 
 }
