@@ -37,7 +37,7 @@ public class ProductService {
     }
 
     public List<Product> findByNameContains(String query) {
-        LOG.info("Searching for " + query);
+        LOG.info("Querying ProductRepository for partial name: " + query);
         return productRepository.findByNameContainsIgnoreCase(query)
                 .orElseThrow(ProductNotFoundException::new);
 
