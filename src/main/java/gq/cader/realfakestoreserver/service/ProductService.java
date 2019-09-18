@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -43,7 +42,8 @@ public class ProductService {
 
     public List<Product> findByPartialString(String query) {
         LOG.info("Searching for " + query);
-        return Optional.of(productRepository.findAll()
+        return productRepository.findByNameContains(query).orElseThrow(ProductNotFoundException::new);
+        /*Optional.of(productRepository.findAll()
                 .stream()
                 .filter(x -> x.getName()
                         .toLowerCase()
@@ -51,5 +51,6 @@ public class ProductService {
                 .sorted((x, y) -> x.getName().compareToIgnoreCase(y.getName()))
                 .collect(Collectors.toList()))
                 .orElseThrow(ProductNotFoundException::new);
+                */
     }
 }
