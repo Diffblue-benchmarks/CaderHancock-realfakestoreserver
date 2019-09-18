@@ -32,6 +32,9 @@ public class ProductService {
     }
 
     public Product postNewProduct(Product product) {
-        return productRepository.save(product);
+        return (productRepository.findByName(product.getName()).isPresent()) ?
+                productRepository.findByName(product.getName()).get()
+                :
+                productRepository.save(product);
     }
 }
