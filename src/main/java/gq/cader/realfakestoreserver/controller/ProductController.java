@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/products")
@@ -29,17 +28,9 @@ public class ProductController {
         return productService.findById(id);
     }
 
-    //TODO Refactor this logic into Service
     @GetMapping(value = "/findByPartialString/{query}", produces = "application/json")
     public List<Product> findByPartialString(@PathVariable String query) {
-        LOG.info("Searching for " + query);
-        return productRepository.findAll()
-                .stream()
-                .filter(x -> x.getName()
-                        .toLowerCase()
-                        .contains(query.toLowerCase()))
-                .sorted((x, y) -> x.getName().compareToIgnoreCase(y.getName()))
-                .collect(Collectors.toList());
+        return productService.findByPartialString(query);
     }
 
     @PostMapping("/")
