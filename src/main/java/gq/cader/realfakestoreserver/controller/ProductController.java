@@ -29,8 +29,8 @@ public class ProductController {
     }
 
     @GetMapping(value = "/search/{query}", produces = "application/json")
-    public List<Product> findByPartialString(@PathVariable String query) {
-        return productService.findByPartialString(query);
+    public List<Product> findByNameContains(@PathVariable String query) {
+        return productService.findByNameContains(query);
     }
 
     @PostMapping("/")

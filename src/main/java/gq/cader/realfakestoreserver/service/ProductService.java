@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -25,11 +24,8 @@ public class ProductService {
     public Product findById(Integer id) {
 
         LOG.info("Querying ProductRepository for productId:" + id);
-        Optional<Product> result = productRepository.findByProductId(id);
-        return result.orElseGet(() -> {
-            LOG.warn("ID:" + id.toString() + " not found. Returning empty Product.");
-            return new Product();
-        });
+        return productRepository.findByProductId(id)
+                .orElseThrow(ProductNotFoundException::new);
 
     }
 
@@ -40,9 +36,10 @@ public class ProductService {
                 productRepository.save(product);
     }
 
-    public List<Product> findByPartialString(String query) {
+    public List<Product> findByNameContains(String query) {
         LOG.info("Searching for " + query);
-        return productRepository.findByNameContainsIgnoreCase(query).orElseThrow(ProductNotFoundException::new);
+        return productRepository.findByNameContainsIgnoreCase(query)
+                .orElseThrow(ProductNotFoundException::new);
 
     }
 }
