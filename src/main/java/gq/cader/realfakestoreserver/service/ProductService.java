@@ -42,4 +42,11 @@ public class ProductService {
                 .orElseThrow(ProductNotFoundException::new);
 
     }
+
+    public Product reduceProductInventoryByDelta(Integer productId, Integer delta) {
+        Product product = productRepository.findByProductId(productId).orElseThrow(ProductNotFoundException::new);
+        product.setNumInInventory(product.getNumInInventory() - delta);
+        productRepository.save(product);
+        return product;
+    }
 }

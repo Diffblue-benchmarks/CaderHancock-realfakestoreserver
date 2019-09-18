@@ -38,4 +38,10 @@ public class ProductController {
         return productService.postNewProduct(product);
     }
 
+    @PutMapping(value = "/reduceInventory{id}", produces = "application/json")
+    public @ResponseBody
+    Product reduceProductInventoryByDelta(@PathVariable("id") Integer productId, @RequestParam(name = "delta") Integer delta) {
+        return productService.reduceProductInventoryByDelta(productId, delta);
+    }
+
 }
