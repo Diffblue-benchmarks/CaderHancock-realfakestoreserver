@@ -42,15 +42,7 @@ public class ProductService {
 
     public List<Product> findByPartialString(String query) {
         LOG.info("Searching for " + query);
-        return productRepository.findByNameContains(query).orElseThrow(ProductNotFoundException::new);
-        /*Optional.of(productRepository.findAll()
-                .stream()
-                .filter(x -> x.getName()
-                        .toLowerCase()
-                        .contains(query.toLowerCase()))
-                .sorted((x, y) -> x.getName().compareToIgnoreCase(y.getName()))
-                .collect(Collectors.toList()))
-                .orElseThrow(ProductNotFoundException::new);
-                */
+        return productRepository.findByNameContainsIgnoreCase(query).orElseThrow(ProductNotFoundException::new);
+
     }
 }
