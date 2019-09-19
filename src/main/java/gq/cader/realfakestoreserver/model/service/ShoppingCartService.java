@@ -16,29 +16,19 @@ import java.util.stream.DoubleStream;
 @Service
 public class ShoppingCartService {
 
-    private ShoppingCartRepository shoppingCartRepository;
-    private ProductService productService;
+
     @Autowired
-    public ShoppingCartService(ShoppingCartRepository shoppingCartRepository, ProductService productService) {
-        this.shoppingCartRepository = shoppingCartRepository;
-        this.productService = productService;
+    public ShoppingCartService() {
+
     }
 
 
-    protected Map<Product, Integer> previewProductQuantityMapForCheckout(ShoppingCart shoppingCart) {
-        return Optional.of(shoppingCart.getProductQuantityMap().entrySet()
-                .stream()
-                .filter(x -> productService.verifyProductInventoryForPreCheckout(x.getKey(), x.getValue()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
-                .orElseGet(HashMap::new);
-    }
-
-    public void updateShoppingCartProductQuantity(ShoppingCart shoppingCart, Product product, Integer quantity) {
+    public void updateProductQuantity(ShoppingCart shoppingCart, Product product, Integer quantity) {
         shoppingCart.getProductQuantityMap().put(product, quantity);
         removeProductsWithZeroQuantity(shoppingCart);
     }
 
-    public void updateShoppingCartProductQuantityByDelta(ShoppingCart shoppingCart, Product product, Integer delta) {
+    public void updateProductQuantityByDelta(ShoppingCart shoppingCart, Product product, Integer delta) {
 
         shoppingCart.getProductQuantityMap().put(product,
                 (shoppingCart.getProductQuantityMap().containsKey(product)) ?               //Does key exist?
@@ -50,22 +40,20 @@ public class ShoppingCartService {
     }
 
     public Integer getProductQuantity(ShoppingCart shoppingCart, Product product) {
-        return Optional.of(shoppingCart.getProductQuantityMap().get(product))
+        return Optional.ofNullable(shoppingCart.getProductQuantityMap().get(product))
                 .orElse(0);
     }
 
-    public Double getTotalPrice(Customer customer) {
-        return getTotalPrice(customer.getShoppingCart());
-    }
-
     public Double getTotalPrice(ShoppingCart shoppingCart) {
-        return Optional.of(shoppingCart.getProductQuantityMap().entrySet()
+
+        Optional<ShoppingCart> optionalShoppingCart = Optional.ofNullable(shoppingCart);
+        return optionalShoppingCart.map(cart -> cart.getProductQuantityMap()
+                .entrySet()
                 .stream()
                 .flatMapToDouble(
                         x -> DoubleStream.of(
                                 x.getKey().getPrice() * x.getValue()))
-                .sum())
-                .orElse(0.0);
+                .sum()).orElse(0.0);
     }
 
     public void assignShoppingCartToCustomer(Customer customer, ShoppingCart shoppingCart) {

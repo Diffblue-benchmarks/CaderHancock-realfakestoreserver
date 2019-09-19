@@ -48,13 +48,7 @@ public class ProductService {
 
     }
 
-    protected Boolean verifyProductInventoryForPreCheckout(Product product, Integer quantity) throws ProductInventoryException {
-        if (product.getNumInInventory() >= quantity)
-            return true;
-        else
-            throw new ProductInventoryException();
 
-    }
 
 
 }
