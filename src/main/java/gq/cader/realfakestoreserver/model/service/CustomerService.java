@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,6 +41,12 @@ public class CustomerService {
         //TODO Implement this
     }
 
+    public List<Customer> findAll() {
+        return Optional.of(customerRepository.findAll())
+                .orElseGet(() -> {
+                    throw new CustomerNotFoundException("There are no Customers in the Database");
+                });
+    }
     public Customer findById(Integer customerId) {
 
         LOG.info("Querying CustomerRepository for ID:" + customerId.toString());
