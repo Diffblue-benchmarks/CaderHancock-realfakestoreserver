@@ -37,6 +37,10 @@ public class ProductService {
                 productRepository.save(product);
     }
 
+    protected Product putUpdatedProduct(Product product) {
+        return productRepository.save(product);
+    }
+
     public List<Product> findByNameContains(String query) {
         LOG.info("Querying ProductRepository for partial name: " + query);
         return productRepository.findByNameContainsIgnoreCase(query)
@@ -52,18 +56,5 @@ public class ProductService {
 
     }
 
-    protected Product reduceProductInventoryByDelta(Integer productId, Integer delta) throws ProductNotFoundException, ProductInventoryException {
-        Product product = productRepository.findByProductId(productId).orElseThrow(ProductNotFoundException::new);
-        if (product.getNumInInventory() >= delta) {
 
-            product.setNumInInventory(product.getNumInInventory() - delta);
-            productRepository.save(product);
-            return product;
-
-        } else {
-            throw new ProductInventoryException("Product ID:" + product.getProductId() + ": " + product.getName()
-                    + " is not in sufficient stock to reduce inventory by " + delta.toString());
-        }
-
-    }
 }

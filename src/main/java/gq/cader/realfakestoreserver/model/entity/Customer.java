@@ -3,6 +3,7 @@ package gq.cader.realfakestoreserver.model.entity;
 import lombok.Data;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,11 +26,12 @@ class Customer {
     private String lastName;
     @OneToOne
     private ShoppingCart shoppingCart;
-    @OneToMany(targetEntity = Address.class, fetch = FetchType.EAGER)
+    @OneToMany
     @Column(name = "ADDRESSES")
     private List<Address> addresses;
     @Column(name = "EMAIL")
     private String email;
+    @ElementCollection(targetClass = Order.class)
     @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY)
     private List<Order> orders;
 }

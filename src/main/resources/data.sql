@@ -1,6 +1,6 @@
-INSERT INTO product (PRODUCT_ID, name, price,  description, imgPath, numInInventory, category) VALUES
- ('1', 'Box Fan', '100', 'The best fan', 'null', '1', 'HOME'),
-  ('2', 'Clean Code', '10', 'By Uncle Bob', 'null', '100', 'BOOKS');
+INSERT INTO product (PRODUCT_ID, name, price,  description, imgPath, numInInventory, category, upc) VALUES
+ ('1', 'Box Fan', '100', 'The best fan', 'null', '1', 'HOME', '123456789012'),
+  ('2', 'Clean Code', '10', 'By Uncle Bob', 'null', '100', 'BOOKS', '098765432109');
 INSERT INTO SHOPPING_CART (ID) VALUES ('1'),('2');
 INSERT INTO CUSTOMER (CUSTOMER_ID, FIRST_NAME, LAST_NAME, SHOPPING_CART_ID, EMAIL) VALUES
     ('1', 'John', 'Doe', '1', 'John@fake.com'),

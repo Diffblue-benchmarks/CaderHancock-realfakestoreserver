@@ -28,6 +28,8 @@ class Product {
     private String imgPath;
     @Column(name = "NUMININVENTORY")
     private int numInInventory;
+    @Column(name = "UPC")
+    private String UPC;
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
