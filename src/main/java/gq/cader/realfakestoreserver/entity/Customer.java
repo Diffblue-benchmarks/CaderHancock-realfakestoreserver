@@ -23,4 +23,6 @@ class Customer {
     private List<Address> addresses;
     @Column(name = "EMAIL")
     private String email;
+    @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY)
+    private List<Order> orders;
 }

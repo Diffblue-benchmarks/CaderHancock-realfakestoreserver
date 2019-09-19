@@ -1,7 +1,6 @@
 package gq.cader.realfakestoreserver.controller;
 
 import gq.cader.realfakestoreserver.entity.Product;
-import gq.cader.realfakestoreserver.repository.ProductRepository;
 import gq.cader.realfakestoreserver.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import java.util.List;
 @RequestMapping("api/products")
 public class ProductController {
 
-    private ProductRepository productRepository;
     private Logger LOG = LoggerFactory.getLogger(ProductController.class);
     private ProductService productService;
 
@@ -38,10 +36,5 @@ public class ProductController {
         return productService.postNewProduct(product);
     }
 
-    @PutMapping(value = "/reduceInventory{id}", produces = "application/json")
-    public @ResponseBody
-    Product reduceProductInventoryByDelta(@PathVariable("id") Integer productId, @RequestParam(name = "delta") Integer delta) {
-        return productService.reduceProductInventoryByDelta(productId, delta);
-    }
 
 }

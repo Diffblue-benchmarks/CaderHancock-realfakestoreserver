@@ -1,6 +1,7 @@
 package gq.cader.realfakestoreserver.service;
 
 import gq.cader.realfakestoreserver.entity.Product;
+import gq.cader.realfakestoreserver.exception.ProductInventoryException;
 import gq.cader.realfakestoreserver.exception.ProductNotFoundException;
 import gq.cader.realfakestoreserver.repository.ProductRepository;
 import org.slf4j.Logger;
@@ -43,10 +44,26 @@ public class ProductService {
 
     }
 
-    public Product reduceProductInventoryByDelta(Integer productId, Integer delta) {
+    protected Boolean verifyProductInventoryForPreCheckout(Product product, Integer quantity) throws ProductInventoryException {
+        if (product.getNumInInventory() >= quantity)
+            return true;
+        else
+            throw new ProductInventoryException();
+
+    }
+
+    protected Product reduceProductInventoryByDelta(Integer productId, Integer delta) throws ProductNotFoundException, ProductInventoryException {
         Product product = productRepository.findByProductId(productId).orElseThrow(ProductNotFoundException::new);
-        product.setNumInInventory(product.getNumInInventory() - delta);
-        productRepository.save(product);
-        return product;
+        if (product.getNumInInventory() >= delta) {
+
+            product.setNumInInventory(product.getNumInInventory() - delta);
+            productRepository.save(product);
+            return product;
+
+        } else {
+            throw new ProductInventoryException("Product ID:" + product.getProductId() + ": " + product.getName()
+                    + " is not in sufficient stock to reduce inventory by " + delta.toString());
+        }
+
     }
 }

@@ -18,10 +18,12 @@ public class ShoppingCartService {
     private ShoppingCartRepository shoppingCartRepository;
     private ShoppingCart shoppingCart;
     private Map<Product, Integer> shoppingCartProductQuantityMap;
+    private ProductService productService;
     @Autowired
-    public ShoppingCartService(ShoppingCartRepository shoppingCartRepository) {
+    public ShoppingCartService(ShoppingCartRepository shoppingCartRepository, ProductService productService) {
         this.shoppingCartRepository = shoppingCartRepository;
         this.shoppingCart = new ShoppingCart();
+        this.productService = productService;
     }
 
     protected void setShoppingCartByCustomerReference(Customer customer) {
@@ -38,12 +40,18 @@ public class ShoppingCartService {
         this.shoppingCartProductQuantityMap = shoppingCart.getProductQuantityMap();
     }
 
-    public void updateProductQuantity(Product product, Integer quantity) {
+    protected Map<Product, Integer> previewProductQuantityMapForCheckout(ShoppingCart shoppingCart) {
+        return shoppingCart.getProductQuantityMap().entrySet().stream()
+                .filter(x -> productService.verifyProductInventoryForPreCheckout(x.getKey(), x.getValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public void updateShoppingCartProductQuantity(Product product, Integer quantity) {
         shoppingCartProductQuantityMap.put(product, quantity);
         removeProductsWithZeroQuantity();
     }
 
-    public void updateProductQuantityByDelta(Product product, Integer delta) {
+    public void updateShoppingCartProductQuantityByDelta(Product product, Integer delta) {
 
         shoppingCartProductQuantityMap.put(product,
                 (shoppingCartProductQuantityMap.containsKey(product)) ?               //Does key exist?
@@ -80,4 +88,5 @@ public class ShoppingCartService {
                         .filter(x -> x.getValue() > 0)
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
+
 }

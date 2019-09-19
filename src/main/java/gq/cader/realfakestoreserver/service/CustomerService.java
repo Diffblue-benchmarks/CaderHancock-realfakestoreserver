@@ -15,25 +15,23 @@ import java.util.Optional;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final ProductService productService;
-    private ShoppingCartService shoppingCartService; //Not final so
+    private final ShoppingCartService shoppingCartService;
     private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
 
     @Autowired
-    CustomerService(CustomerRepository customerRepository, ProductService productService, ShoppingCartService shoppingCartService) {
+    CustomerService(CustomerRepository customerRepository, ShoppingCartService shoppingCartService) {
         this.customerRepository = customerRepository;
-        this.productService = productService;
         this.shoppingCartService = shoppingCartService;
     }
 
-    void createCustomer(String firstName, String lastName, String email) {
+    public Customer createCustomer(String firstName, String lastName, String email) {
 
         Customer customer = new Customer();
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
         customer.setEmail(email);
         customer.setShoppingCart(new ShoppingCart());
-        this.postNewCustomer(customer);
+        return this.postNewCustomer(customer);
 
 
     }
