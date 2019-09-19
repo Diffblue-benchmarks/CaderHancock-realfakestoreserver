@@ -40,24 +40,31 @@ public class ShoppingCartService {
     }
 
     public Integer getProductQuantity(ShoppingCart shoppingCart, Product product) {
-        return Optional.ofNullable(shoppingCart.getProductQuantityMap().get(product))
-                .orElse(0);
+
+        Optional<ShoppingCart> optionalShoppingCart = Optional.ofNullable(shoppingCart);
+        Optional<Product> optionalProduct = Optional.ofNullable(product);
+        if (optionalShoppingCart.isPresent() && optionalProduct.isPresent())
+            return Optional.ofNullable(
+                    shoppingCart.getProductQuantityMap().get(product))
+                    .orElse(0);
+        else
+            return 0;
     }
 
     public Double getTotalPrice(ShoppingCart shoppingCart) {
-
-        Optional<ShoppingCart> optionalShoppingCart = Optional.ofNullable(shoppingCart);
-        return optionalShoppingCart.map(cart -> cart.getProductQuantityMap()
+        return Optional.ofNullable(shoppingCart)
+                .map(cart -> cart.getProductQuantityMap()
                 .entrySet()
                 .stream()
                 .flatMapToDouble(
                         x -> DoubleStream.of(
                                 x.getKey().getPrice() * x.getValue()))
-                .sum()).orElse(0.0);
+                        .sum())
+                .orElse(0.0);
     }
 
     public void assignShoppingCartToCustomer(Customer customer, ShoppingCart shoppingCart) {
-        customer.setShoppingCart(Optional.of(shoppingCart)
+        customer.setShoppingCart(Optional.ofNullable(shoppingCart)
                 .orElseGet(ShoppingCart::new));
     }
 

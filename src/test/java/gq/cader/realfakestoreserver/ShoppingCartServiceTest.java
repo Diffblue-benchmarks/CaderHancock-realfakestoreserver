@@ -35,7 +35,7 @@ public class ShoppingCartServiceTest {
         shoppingCart.updateProductQuantityByDelta(sc, p, 1);
         assertEquals(2.0, shoppingCart.getTotalPrice(sc), 0.0);
         assertEquals(Double.valueOf(0.0), shoppingCart.getTotalPrice(null));
-
+        assertEquals(Integer.valueOf(0), shoppingCart.getProductQuantity(null, null));
     }
 
 }
