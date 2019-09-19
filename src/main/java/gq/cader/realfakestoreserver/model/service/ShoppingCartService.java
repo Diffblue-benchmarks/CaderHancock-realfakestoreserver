@@ -7,6 +7,7 @@ import gq.cader.realfakestoreserver.model.repository.ShoppingCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,77 +17,68 @@ import java.util.stream.DoubleStream;
 public class ShoppingCartService {
 
     private ShoppingCartRepository shoppingCartRepository;
-    private ShoppingCart shoppingCart;
-    private Map<Product, Integer> shoppingCartProductQuantityMap;
     private ProductService productService;
     @Autowired
     public ShoppingCartService(ShoppingCartRepository shoppingCartRepository, ProductService productService) {
         this.shoppingCartRepository = shoppingCartRepository;
-        this.shoppingCart = new ShoppingCart();
         this.productService = productService;
     }
 
-    protected void setShoppingCartByCustomerReference(Customer customer) {
-        this.shoppingCart = Optional.of(customer.getShoppingCart())
-                .orElseGet(ShoppingCart::new);
-
-        this.shoppingCartProductQuantityMap = shoppingCart.getProductQuantityMap();
-    }
-
-    protected void setShoppingCartByShoppingCartId(Integer shoppingCartId) {
-        this.shoppingCart = shoppingCartRepository.findById(shoppingCartId)
-                .orElseGet(ShoppingCart::new);
-
-        this.shoppingCartProductQuantityMap = shoppingCart.getProductQuantityMap();
-    }
 
     protected Map<Product, Integer> previewProductQuantityMapForCheckout(ShoppingCart shoppingCart) {
-        return shoppingCart.getProductQuantityMap().entrySet().stream()
+        return Optional.of(shoppingCart.getProductQuantityMap().entrySet()
+                .stream()
                 .filter(x -> productService.verifyProductInventoryForPreCheckout(x.getKey(), x.getValue()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
+                .orElseGet(HashMap::new);
     }
 
-    public void updateShoppingCartProductQuantity(Product product, Integer quantity) {
-        shoppingCartProductQuantityMap.put(product, quantity);
-        removeProductsWithZeroQuantity();
+    public void updateShoppingCartProductQuantity(ShoppingCart shoppingCart, Product product, Integer quantity) {
+        shoppingCart.getProductQuantityMap().put(product, quantity);
+        removeProductsWithZeroQuantity(shoppingCart);
     }
 
-    public void updateShoppingCartProductQuantityByDelta(Product product, Integer delta) {
+    public void updateShoppingCartProductQuantityByDelta(ShoppingCart shoppingCart, Product product, Integer delta) {
 
-        shoppingCartProductQuantityMap.put(product,
-                (shoppingCartProductQuantityMap.containsKey(product)) ?               //Does key exist?
-                        ((shoppingCartProductQuantityMap.get(product) + delta))  //If true apply delta
+        shoppingCart.getProductQuantityMap().put(product,
+                (shoppingCart.getProductQuantityMap().containsKey(product)) ?               //Does key exist?
+                        ((shoppingCart.getProductQuantityMap().get(product) + delta))  //If true apply delta
                         :
                         delta);                                  //If new key, put delta as quantity
-        removeProductsWithZeroQuantity();
+        removeProductsWithZeroQuantity(shoppingCart);
 
     }
 
-    public Integer getProductQuantity(Product product) {
-        return Optional.of(shoppingCartProductQuantityMap.get(product))
+    public Integer getProductQuantity(ShoppingCart shoppingCart, Product product) {
+        return Optional.of(shoppingCart.getProductQuantityMap().get(product))
                 .orElse(0);
     }
 
-    public Double getTotalPrice() {
-        return shoppingCartProductQuantityMap.entrySet()
+    public Double getTotalPrice(Customer customer) {
+        return getTotalPrice(customer.getShoppingCart());
+    }
+
+    public Double getTotalPrice(ShoppingCart shoppingCart) {
+        return Optional.of(shoppingCart.getProductQuantityMap().entrySet()
                 .stream()
                 .flatMapToDouble(
                         x -> DoubleStream.of(
                                 x.getKey().getPrice() * x.getValue()))
-                .sum();
+                .sum())
+                .orElse(0.0);
     }
 
-    public void assignShoppingCartToCustomer(Customer customer) {
-        customer.setShoppingCart(Optional.of(this.shoppingCart)
+    public void assignShoppingCartToCustomer(Customer customer, ShoppingCart shoppingCart) {
+        customer.setShoppingCart(Optional.of(shoppingCart)
                 .orElseGet(ShoppingCart::new));
     }
 
-    private void removeProductsWithZeroQuantity() {
-        this.shoppingCartProductQuantityMap =
-                this.shoppingCartProductQuantityMap.entrySet()
+    private void removeProductsWithZeroQuantity(ShoppingCart shoppingCart) {
+        shoppingCart.setProductQuantityMap(
+                shoppingCart.getProductQuantityMap().entrySet()
                         .stream()
                         .filter(x -> x.getValue() > 0)
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
     }
 
 }
