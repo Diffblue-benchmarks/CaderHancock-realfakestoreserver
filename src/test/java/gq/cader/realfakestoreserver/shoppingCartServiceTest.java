@@ -1,6 +1,6 @@
 package gq.cader.realfakestoreserver;
 
-import gq.cader.realfakestoreserver.entity.Product;
+import gq.cader.realfakestoreserver.model.entity.Product;
 import org.junit.Test;
 
 public class shoppingCartServiceTest {

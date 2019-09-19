@@ -1,7 +1,7 @@
-package gq.cader.realfakestoreserver.repository;
+package gq.cader.realfakestoreserver.model.repository;
 
-import gq.cader.realfakestoreserver.entity.Product;
-import gq.cader.realfakestoreserver.entity.ProductCategory;
+import gq.cader.realfakestoreserver.model.entity.Product;
+import gq.cader.realfakestoreserver.model.entity.ProductCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

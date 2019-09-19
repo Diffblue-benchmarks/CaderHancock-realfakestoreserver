@@ -1,4 +1,4 @@
-package gq.cader.realfakestoreserver.entity;
+package gq.cader.realfakestoreserver.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

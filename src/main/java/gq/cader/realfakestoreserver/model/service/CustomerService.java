@@ -1,9 +1,9 @@
-package gq.cader.realfakestoreserver.service;
+package gq.cader.realfakestoreserver.model.service;
 
-import gq.cader.realfakestoreserver.entity.Customer;
-import gq.cader.realfakestoreserver.entity.ShoppingCart;
 import gq.cader.realfakestoreserver.exception.CustomerNotFoundException;
-import gq.cader.realfakestoreserver.repository.CustomerRepository;
+import gq.cader.realfakestoreserver.model.entity.Customer;
+import gq.cader.realfakestoreserver.model.entity.ShoppingCart;
+import gq.cader.realfakestoreserver.model.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

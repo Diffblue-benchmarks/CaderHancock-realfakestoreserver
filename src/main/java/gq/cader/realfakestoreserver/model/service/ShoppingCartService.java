@@ -1,9 +1,9 @@
-package gq.cader.realfakestoreserver.service;
+package gq.cader.realfakestoreserver.model.service;
 
-import gq.cader.realfakestoreserver.entity.Customer;
-import gq.cader.realfakestoreserver.entity.Product;
-import gq.cader.realfakestoreserver.entity.ShoppingCart;
-import gq.cader.realfakestoreserver.repository.ShoppingCartRepository;
+import gq.cader.realfakestoreserver.model.entity.Customer;
+import gq.cader.realfakestoreserver.model.entity.Product;
+import gq.cader.realfakestoreserver.model.entity.ShoppingCart;
+import gq.cader.realfakestoreserver.model.repository.ShoppingCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

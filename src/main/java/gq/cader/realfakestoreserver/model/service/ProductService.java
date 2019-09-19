@@ -1,9 +1,9 @@
-package gq.cader.realfakestoreserver.service;
+package gq.cader.realfakestoreserver.model.service;
 
-import gq.cader.realfakestoreserver.entity.Product;
 import gq.cader.realfakestoreserver.exception.ProductInventoryException;
 import gq.cader.realfakestoreserver.exception.ProductNotFoundException;
-import gq.cader.realfakestoreserver.repository.ProductRepository;
+import gq.cader.realfakestoreserver.model.entity.Product;
+import gq.cader.realfakestoreserver.model.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
-package gq.cader.realfakestoreserver.repository;
+package gq.cader.realfakestoreserver.model.repository;
 
-import gq.cader.realfakestoreserver.entity.Customer;
+import gq.cader.realfakestoreserver.model.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
