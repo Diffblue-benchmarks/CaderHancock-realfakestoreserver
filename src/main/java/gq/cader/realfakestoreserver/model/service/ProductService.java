@@ -18,7 +18,7 @@ public class ProductService {
     private static final Logger LOG = LoggerFactory.getLogger(ProductService.class);
 
     @Autowired
-    ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
