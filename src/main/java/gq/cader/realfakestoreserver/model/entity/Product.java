@@ -1,6 +1,7 @@
 package gq.cader.realfakestoreserver.model.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,12 +22,16 @@ class Product {
     @Column(name = "NAME")
     private String name;
     @Column(name = "PRICE")
+    @EqualsAndHashCode.Exclude
     private Double price;
     @Column(name = "DESCRIPTION")
+    @EqualsAndHashCode.Exclude
     private String description;
     @Column(name = "IMGPATH")
+    @EqualsAndHashCode.Exclude
     private String imgPath;
     @Column(name = "NUMININVENTORY")
+    @EqualsAndHashCode.Exclude
     private int numInInventory;
     @Column(name = "UPC")
     private String UPC;

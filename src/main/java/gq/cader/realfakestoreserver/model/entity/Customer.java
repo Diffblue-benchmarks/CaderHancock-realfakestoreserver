@@ -1,6 +1,7 @@
 package gq.cader.realfakestoreserver.model.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -25,13 +26,16 @@ class Customer {
     @Column(name = "LAST_NAME")
     private String lastName;
     @OneToOne
+    @EqualsAndHashCode.Exclude
     private ShoppingCart shoppingCart;
     @OneToMany
     @Column(name = "ADDRESSES")
+    @EqualsAndHashCode.Exclude
     private List<Address> addresses;
     @Column(name = "EMAIL")
     private String email;
     @ElementCollection(targetClass = Order.class)
     @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
     private List<Order> orders;
 }

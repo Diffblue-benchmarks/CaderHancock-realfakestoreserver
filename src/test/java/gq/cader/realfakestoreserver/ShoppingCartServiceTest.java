@@ -11,26 +11,25 @@ public class ShoppingCartServiceTest {
 
     @Test
     public void testCart() {
-        Product p1 = new Product();
-        Product p = new Product();
-        ShoppingCart sc = new ShoppingCart();
-        p.setName("ok");
-        p.setPrice(1.0);
-        p1.setName("ko");
-        p1.setPrice(1.0);
+        Product product1 = new Product();
+        Product product2 = new Product();
+        ShoppingCart shoppingCart = new ShoppingCart();
+        product2.setName("ok");
+        product2.setPrice(1.0);
+        product1.setName("ko");
+        product1.setPrice(1.0);
 
         ShoppingCartService shoppingCartService = new ShoppingCartService();
-        shoppingCartService.updateProductQuantityByDelta(sc, p, 1);
-        shoppingCartService.updateProductQuantityByDelta(sc, p, 10);
-        shoppingCartService.updateProductQuantityByDelta(sc, p, -5);
-        shoppingCartService.updateProductQuantityByDelta(sc, p1, 1);
-        assertEquals(6, (int) shoppingCartService.getProductQuantity(sc, p));
-        shoppingCartService.updateProductQuantityByDelta(sc, p, -7);
-        assertEquals(Integer.valueOf(0), shoppingCartService.getProductQuantity(sc, p));
-        shoppingCartService.updateProductQuantityByDelta(sc, p, 1);
-        assertEquals(Double.valueOf(2.0), shoppingCartService.getTotalPrice(sc));
-        assertEquals(Double.valueOf(0.0), shoppingCartService.getTotalPrice(null));
-        assertEquals(Integer.valueOf(0), shoppingCartService.getProductQuantity(null, null));
+        shoppingCartService.updateProductQuantityByDelta(shoppingCart, product2, 1);
+        shoppingCartService.updateProductQuantityByDelta(shoppingCart, product2, 10);
+        shoppingCartService.updateProductQuantityByDelta(shoppingCart, product2, -5);
+        shoppingCartService.updateProductQuantityByDelta(shoppingCart, product1, 1);
+        assertEquals(6, (int) shoppingCartService.getProductQuantity(shoppingCart, product2));
+        shoppingCartService.updateProductQuantityByDelta(shoppingCart, product2, -7);
+        assertEquals(Integer.valueOf(0), shoppingCartService.getProductQuantity(shoppingCart, product2));
+        shoppingCartService.updateProductQuantityByDelta(shoppingCart, product2, 1);
+        assertEquals(Double.valueOf(2.0), shoppingCartService.getTotalPrice(shoppingCart));
+
     }
 
 }

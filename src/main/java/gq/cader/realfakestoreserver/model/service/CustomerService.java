@@ -4,13 +4,13 @@ import gq.cader.realfakestoreserver.exception.CustomerNotFoundException;
 import gq.cader.realfakestoreserver.model.entity.Customer;
 import gq.cader.realfakestoreserver.model.entity.ShoppingCart;
 import gq.cader.realfakestoreserver.model.repository.CustomerRepository;
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -33,32 +33,25 @@ public class CustomerService {
         customer.setEmail(email);
         customer.setShoppingCart(new ShoppingCart());
         return this.postNewCustomer(customer);
-
-
     }
 
     public void checkOutCustomer(Integer customerId) {
         //TODO Implement this
     }
 
-    public List<Customer> findAll() {
-        return Optional.of(customerRepository.findAll())
-                .orElseGet(() -> {
-                    throw new CustomerNotFoundException("There are no Customers in the Database");
-                });
+    public @NonNull List<Customer> findAll() {
+        return customerRepository.findAll();
     }
-    public Customer findById(Integer customerId) {
+
+    public Customer findById(Integer customerId) throws CustomerNotFoundException {
 
         LOG.info("Querying CustomerRepository for ID:" + customerId.toString());
-        Optional<Customer> result = customerRepository.findById(customerId);
-        return result.orElseGet(() -> {
-            throw new CustomerNotFoundException("ID:" + customerId.toString() + " not found.");
-        });
+        return customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
     }
 
     private Customer postNewCustomer(Customer customer) {
         if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
-            LOG.warn("Customer: " + customer.toString() + " Already exists");
+            LOG.info("Customer: " + customer.toString() + " Already exists");
             return customerRepository.findByEmail(customer.getEmail()).get();
         } else {
             LOG.info("Created Customer: " + customer.toString());
