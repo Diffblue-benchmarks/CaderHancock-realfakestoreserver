@@ -50,6 +50,11 @@ public class ShoppingCartServiceTest {
         shoppingCartService.setProductQuantity(shoppingCart, product1, 99);
         assertEquals(Double.valueOf(199.0), shoppingCartService.getSubtotalPrice(shoppingCart));
 
+        //Test that UpdateByDelta sets a map value for a product that does not exist as a key
+        shoppingCartService.setProductQuantity(shoppingCart, product1, -1);
+        shoppingCartService.updateProductQuantityByDelta(shoppingCart, product1, 1);
+        assertEquals(Integer.valueOf(1), shoppingCartService.getProductQuantity(shoppingCart, product1));
+
     }
 
 }

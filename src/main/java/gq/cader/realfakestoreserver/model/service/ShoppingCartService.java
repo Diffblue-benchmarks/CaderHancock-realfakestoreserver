@@ -49,9 +49,6 @@ public class ShoppingCartService {
 
     }
 
-    public void assignShoppingCartToCustomer(@NonNull Customer customer, @NonNull ShoppingCart shoppingCart) {
-        customer.setShoppingCart(shoppingCart);
-    }
 
     private void removeProductsWithZeroQuantity(ShoppingCart shoppingCart) {
         shoppingCart.setProductQuantityMap(
