@@ -1,7 +1,10 @@
 package gq.cader.realfakestoreserver.controller;
 
+import gq.cader.realfakestoreserver.exception.ProductNotFoundException;
 import gq.cader.realfakestoreserver.model.entity.Product;
 import gq.cader.realfakestoreserver.model.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +20,7 @@ import java.util.List;
 public class ProductController {
 
     private ProductService productService;
+    private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -30,7 +34,17 @@ public class ProductController {
 
     @GetMapping(value = "/search/{query}", produces = "application/json")
     public List<Product> findByNameContains(@PathVariable String query) {
-        return productService.findByNameContains(query);
+        try {
+            return productService.findByNameContains(query);
+        } catch (ProductNotFoundException e) {
+            LOG.warn(e.toString());
+            return null;
+        }
+    }
+
+    @GetMapping(value = "/all", produces = "application/json")
+    public List<Product> getAll() {
+        return productService.findAll();
     }
 
     @PostMapping("/")

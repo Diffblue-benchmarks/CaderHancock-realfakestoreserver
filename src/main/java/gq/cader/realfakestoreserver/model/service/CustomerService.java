@@ -49,6 +49,14 @@ public class CustomerService {
         return customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
     }
 
+    public List<Customer> findByFirstName(String name) {
+        return customerRepository.findByFirstNameContainsIgnoreCase(name);
+    }
+
+    public List<Customer> findByLastName(String name) {
+        return customerRepository.findByLastNameContainsIgnoreCase(name);
+    }
+
     private Customer postNewCustomer(Customer customer) {
         if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
             LOG.info("Customer: " + customer.toString() + " Already exists");

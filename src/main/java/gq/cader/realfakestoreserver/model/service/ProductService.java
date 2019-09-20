@@ -3,7 +3,6 @@ package gq.cader.realfakestoreserver.model.service;
 import gq.cader.realfakestoreserver.exception.ProductNotFoundException;
 import gq.cader.realfakestoreserver.model.entity.Product;
 import gq.cader.realfakestoreserver.model.repository.ProductRepository;
-import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,9 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
     public Product findById(Integer id) throws ProductNotFoundException {
         LOG.info("Querying ProductRepository for productId:" + id);
         return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
