@@ -3,15 +3,7 @@ package gq.cader.realfakestoreserver.model.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.List;
 
@@ -33,7 +25,7 @@ class Customer {
     @EqualsAndHashCode.Exclude
     private ShoppingCart shoppingCart;
 
-    @OneToMany
+    @ManyToMany
     @Column(name = "ADDRESSES")
     @EqualsAndHashCode.Exclude
     private List<Address> addresses;
