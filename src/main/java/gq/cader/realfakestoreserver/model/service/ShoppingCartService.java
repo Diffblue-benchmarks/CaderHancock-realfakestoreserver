@@ -14,7 +14,7 @@ import java.util.stream.DoubleStream;
 public class ShoppingCartService {
 
 
-    public void updateProductQuantity(ShoppingCart shoppingCart, @NonNull Product product, @NonNull Integer quantity) {
+    public void setProductQuantity(ShoppingCart shoppingCart, @NonNull Product product, @NonNull Integer quantity) {
         if (shoppingCart == null) shoppingCart = new ShoppingCart();
 
         shoppingCart.getProductQuantityMap().put(product, quantity);
@@ -38,7 +38,7 @@ public class ShoppingCartService {
                 .getOrDefault(product, 0);
     }
 
-    public Double getTotalPrice(@NonNull ShoppingCart shoppingCart) {
+    public Double getSubtotalPrice(@NonNull ShoppingCart shoppingCart) {
         return shoppingCart.getProductQuantityMap()
                 .entrySet()
                 .stream()
