@@ -28,7 +28,7 @@ public class ShoppingCartServiceTest {
         shoppingCartService.updateProductQuantityByDelta(sc, p, -7);
         assertEquals(Integer.valueOf(0), shoppingCartService.getProductQuantity(sc, p));
         shoppingCartService.updateProductQuantityByDelta(sc, p, 1);
-        assertEquals(2.0, shoppingCartService.getTotalPrice(sc), 0.0);
+        assertEquals(Double.valueOf(2.0), shoppingCartService.getTotalPrice(sc));
         assertEquals(Double.valueOf(0.0), shoppingCartService.getTotalPrice(null));
         assertEquals(Integer.valueOf(0), shoppingCartService.getProductQuantity(null, null));
     }
