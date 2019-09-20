@@ -36,7 +36,7 @@ public class ProductService {
                 productRepository.save(product);
     }
 
-    private Product putUpdatedProduct(Product product) {
+    protected Product putUpdatedProduct(Product product) {
         return productRepository.save(product);
     }
 
