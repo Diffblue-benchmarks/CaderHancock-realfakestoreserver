@@ -19,18 +19,18 @@ public class ShoppingCartServiceTest {
         p1.setName("ko");
         p1.setPrice(1.0);
 
-        ShoppingCartService shoppingCart = new ShoppingCartService();
-        shoppingCart.updateProductQuantityByDelta(sc, p, 1);
-        shoppingCart.updateProductQuantityByDelta(sc, p, 10);
-        shoppingCart.updateProductQuantityByDelta(sc, p, -5);
-        shoppingCart.updateProductQuantityByDelta(sc, p1, 1);
-        assertEquals(6, (int) shoppingCart.getProductQuantity(sc, p));
-        shoppingCart.updateProductQuantityByDelta(sc, p, -7);
-        assertEquals(Integer.valueOf(0), shoppingCart.getProductQuantity(sc, p));
-        shoppingCart.updateProductQuantityByDelta(sc, p, 1);
-        assertEquals(2.0, shoppingCart.getTotalPrice(sc), 0.0);
-        assertEquals(Double.valueOf(0.0), shoppingCart.getTotalPrice(null));
-        assertEquals(Integer.valueOf(0), shoppingCart.getProductQuantity(null, null));
+        ShoppingCartService shoppingCartService = new ShoppingCartService();
+        shoppingCartService.updateProductQuantityByDelta(sc, p, 1);
+        shoppingCartService.updateProductQuantityByDelta(sc, p, 10);
+        shoppingCartService.updateProductQuantityByDelta(sc, p, -5);
+        shoppingCartService.updateProductQuantityByDelta(sc, p1, 1);
+        assertEquals(6, (int) shoppingCartService.getProductQuantity(sc, p));
+        shoppingCartService.updateProductQuantityByDelta(sc, p, -7);
+        assertEquals(Integer.valueOf(0), shoppingCartService.getProductQuantity(sc, p));
+        shoppingCartService.updateProductQuantityByDelta(sc, p, 1);
+        assertEquals(2.0, shoppingCartService.getTotalPrice(sc), 0.0);
+        assertEquals(Double.valueOf(0.0), shoppingCartService.getTotalPrice(null));
+        assertEquals(Integer.valueOf(0), shoppingCartService.getProductQuantity(null, null));
     }
 
 }
