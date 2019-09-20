@@ -1,19 +1,14 @@
 package gq.cader.realfakestoreserver;
 
-import gq.cader.realfakestoreserver.model.entity.Customer;
 import gq.cader.realfakestoreserver.model.entity.Product;
 import gq.cader.realfakestoreserver.model.entity.ShoppingCart;
-import gq.cader.realfakestoreserver.model.repository.ShoppingCartRepository;
 import gq.cader.realfakestoreserver.model.service.ShoppingCartService;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 public class ShoppingCartServiceTest {
-    @Mock
-    private ShoppingCartRepository shoppingCartRepository;
+
     @Test
     public void testCart() {
         Product p1 = new Product();

@@ -3,11 +3,8 @@ package gq.cader.realfakestoreserver.model.service;
 import gq.cader.realfakestoreserver.model.entity.Customer;
 import gq.cader.realfakestoreserver.model.entity.Product;
 import gq.cader.realfakestoreserver.model.entity.ShoppingCart;
-import gq.cader.realfakestoreserver.model.repository.ShoppingCartRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,12 +12,6 @@ import java.util.stream.DoubleStream;
 
 @Service
 public class ShoppingCartService {
-
-
-    @Autowired
-    public ShoppingCartService() {
-
-    }
 
 
     public void updateProductQuantity(ShoppingCart shoppingCart, Product product, Integer quantity) {

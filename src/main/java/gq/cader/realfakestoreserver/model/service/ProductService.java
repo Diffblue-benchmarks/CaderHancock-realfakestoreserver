@@ -1,6 +1,5 @@
 package gq.cader.realfakestoreserver.model.service;
 
-import gq.cader.realfakestoreserver.exception.ProductInventoryException;
 import gq.cader.realfakestoreserver.exception.ProductNotFoundException;
 import gq.cader.realfakestoreserver.model.entity.Product;
 import gq.cader.realfakestoreserver.model.repository.ProductRepository;
@@ -37,7 +36,7 @@ public class ProductService {
                 productRepository.save(product);
     }
 
-    protected Product putUpdatedProduct(Product product) {
+    private Product putUpdatedProduct(Product product) {
         return productRepository.save(product);
     }
 
