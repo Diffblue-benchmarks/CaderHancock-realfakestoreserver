@@ -13,8 +13,8 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    private final ProductRepository productRepository;
     private static final Logger LOG = LoggerFactory.getLogger(ProductService.class);
+    private final ProductRepository productRepository;
 
     @Autowired
     public ProductService(ProductRepository productRepository) {

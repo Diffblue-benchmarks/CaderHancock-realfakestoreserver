@@ -4,6 +4,7 @@ import gq.cader.realfakestoreserver.exception.ProductInventoryException;
 import gq.cader.realfakestoreserver.exception.ProductNotFoundException;
 import gq.cader.realfakestoreserver.model.entity.Product;
 import gq.cader.realfakestoreserver.model.entity.ShoppingCart;
+
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -6,3 +6,8 @@ A Spring Boot REST API Portfolio Project
 Currently the controller package doesn't have much external functionallity (Soon)
 
 Eventually, I would like to write a pure kotlin android client to boogie with the backend, but for now I'm focusing on the M and C, V can come later.
+
+
+Requires JDK 11
+
+To build and launch, run build.sh in the project root. 
