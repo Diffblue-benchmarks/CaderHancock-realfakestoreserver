@@ -1,5 +1,7 @@
 #!/bin/bash
 
+clear
+
 echo "Running Git Pull"
 git pull
 
