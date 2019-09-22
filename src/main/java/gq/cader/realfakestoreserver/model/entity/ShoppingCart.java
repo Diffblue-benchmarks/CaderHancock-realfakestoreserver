@@ -25,8 +25,4 @@ public class ShoppingCart {
     public ShoppingCart() {
         productQuantityMap = new HashMap<>();
     }
-
-
-
-
 }

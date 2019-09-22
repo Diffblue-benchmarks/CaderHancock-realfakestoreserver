@@ -1,9 +1,9 @@
 package gq.cader.realfakestoreserver.model.service;
 
-import gq.cader.realfakestoreserver.model.entity.Customer;
 import gq.cader.realfakestoreserver.model.entity.Product;
 import gq.cader.realfakestoreserver.model.entity.ShoppingCart;
 import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -12,27 +12,24 @@ import java.util.stream.DoubleStream;
 
 @Service
 public class ShoppingCartService {
+    private InventoryService inventoryService;
+
+    @Autowired
+    public ShoppingCartService(InventoryService inventoryService) {
+
+        this.inventoryService = inventoryService;
+    }
 
 
     public void setProductQuantity(ShoppingCart shoppingCart, @NonNull Product product, @NonNull Integer quantity) {
-        if (shoppingCart == null) shoppingCart = new ShoppingCart();
 
-        shoppingCart.getProductQuantityMap().put(product, quantity);
-        removeProductsWithZeroQuantity(shoppingCart);
+        if (shoppingCart == null) shoppingCart = this.getEmptyCart();
+
+        if (inventoryService.verifyProductInventory(product, quantity)) {
+            shoppingCart.getProductQuantityMap().put(product, quantity);
+            removeProductsWithZeroQuantity(shoppingCart);
+        }
     }
-
-    public void updateProductQuantityByDelta(ShoppingCart shoppingCart, @NonNull Product product, @NonNull Integer delta) {
-        if (shoppingCart == null) shoppingCart = new ShoppingCart();
-
-        shoppingCart.getProductQuantityMap().put(product,
-                (shoppingCart.getProductQuantityMap().containsKey(product)) ?               //Does key exist?
-                        ((shoppingCart.getProductQuantityMap().get(product) + delta))  //If true apply delta
-                        :
-                        delta);                                  //If new key, put delta as quantity
-        removeProductsWithZeroQuantity(shoppingCart);
-
-    }
-
     public Integer getProductQuantity(@NonNull ShoppingCart shoppingCart, @NonNull Product product) {
         return shoppingCart.getProductQuantityMap()
                 .getOrDefault(product, 0);
@@ -57,6 +54,10 @@ public class ShoppingCartService {
                         .stream()
                         .filter(x -> x.getValue() > 0)
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+    }
+
+    public ShoppingCart getEmptyCart() {
+        return new ShoppingCart();
     }
 
 }

@@ -53,7 +53,7 @@ public class InventoryService {
                 .orElseGet(HashMap::new);
     }
 
-    private Boolean verifyProductInventory(Product product, Integer quantity) throws ProductInventoryException {
+    protected Boolean verifyProductInventory(Product product, Integer quantity) throws ProductInventoryException {
         if (product.getNumInInventory() >= quantity)
             return true;
         else

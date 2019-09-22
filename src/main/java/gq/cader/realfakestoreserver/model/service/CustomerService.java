@@ -57,7 +57,7 @@ public class CustomerService {
         return customerRepository.findByLastNameContainsIgnoreCase(name);
     }
 
-    private Customer postNewCustomer(Customer customer) {
+    public Customer postNewCustomer(Customer customer) {
         if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
             LOG.info("Customer: " + customer.toString() + " Already exists");
             return customerRepository.findByEmail(customer.getEmail()).get();
