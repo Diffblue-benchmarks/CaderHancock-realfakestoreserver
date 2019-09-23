@@ -26,9 +26,12 @@ public class ProductService {
     public List<Product> findAll() {
         return productRepository.findAll();
     }
+
     public Product findById(Integer id) throws ProductNotFoundException {
+
         LOG.info("Querying ProductRepository for productId:" + id);
-        return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+        return productRepository.findById(id)
+                .orElseThrow(ProductNotFoundException::new);
     }
 
     public Product postNewProduct(Product product) {

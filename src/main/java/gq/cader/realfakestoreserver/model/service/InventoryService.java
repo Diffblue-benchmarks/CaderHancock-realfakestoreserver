@@ -35,13 +35,14 @@ public class InventoryService {
             Product product, Integer quantity)
             throws ProductInventoryException {
 
-        if (product.getNumInInventory() >= quantity)
+        if (product.getNumInInventory() >= quantity) {
             return true;
-        else
+        } else {
             throw new ProductInventoryException("Product ID:"
                     + product.getProductId() + ": " + product.getName()
                     + " is not in sufficient stock to reduce inventory by "
                     + quantity.toString());
+        }
 
 
     }

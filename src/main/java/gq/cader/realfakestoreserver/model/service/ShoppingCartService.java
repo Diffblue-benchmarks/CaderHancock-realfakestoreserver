@@ -46,8 +46,8 @@ public class ShoppingCartService {
                 .entrySet()
                 .stream()
                 .flatMapToDouble(
-                        x -> DoubleStream.of(
-                                x.getKey().getPrice() * x.getValue()))
+                    x -> DoubleStream.of(
+                        x.getKey().getPrice() * x.getValue()))
                 .sum();
 
     }

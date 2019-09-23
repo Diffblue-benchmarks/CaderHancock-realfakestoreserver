@@ -17,7 +17,8 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final ShoppingCartService shoppingCartService;
-    private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(CustomerService.class);
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository,
@@ -27,7 +28,8 @@ public class CustomerService {
         this.shoppingCartService = shoppingCartService;
     }
 
-    public Customer createCustomer(String firstName, String lastName, String email) {
+    public Customer createCustomer(
+            String firstName, String lastName, String email) {
 
         Customer customer = new Customer();
         customer.setFirstName(firstName);
@@ -45,10 +47,12 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Customer findById(Integer customerId) throws CustomerNotFoundException {
+    public Customer findById(Integer customerId)
+            throws CustomerNotFoundException {
 
         LOG.info("Querying CustomerRepository for ID:" + customerId.toString());
-        return customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
+        return customerRepository.findById(customerId)
+                .orElseThrow(CustomerNotFoundException::new);
     }
 
     public List<Customer> findByFirstName(String name) {
