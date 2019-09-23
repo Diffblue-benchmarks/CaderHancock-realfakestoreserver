@@ -2,18 +2,11 @@ package gq.cader.realfakestoreserver.model.service;
 
 import gq.cader.realfakestoreserver.exception.ProductInventoryException;
 import gq.cader.realfakestoreserver.model.entity.Product;
-import gq.cader.realfakestoreserver.model.entity.ShoppingCart;
 
-import lombok.NonNull;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class InventoryService {
@@ -33,14 +26,6 @@ public class InventoryService {
         product.setNumInInventory(product.getNumInInventory() - delta);
         productService.putUpdatedProduct(product);
         LOG.info(product.getName() + " inventory successfully reduced by:" + delta);
-    }
-
-    protected Map<Product, Integer> previewProductQuantityMapForCheckout(@NonNull ShoppingCart shoppingCart) {
-        return Optional.of(shoppingCart.getProductQuantityMap().entrySet()
-                .stream()
-                .filter(x -> verifyProductInventory(x.getKey(), x.getValue()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
-                .orElseGet(HashMap::new);
     }
 
     protected Boolean verifyProductInventory(Product product, Integer quantity) throws ProductInventoryException {
