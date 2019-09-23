@@ -32,7 +32,8 @@ public class InventoryService {
     }
 
     protected Boolean verifyProductInventory(
-            Product product, Integer quantity) throws ProductInventoryException {
+            Product product, Integer quantity)
+            throws ProductInventoryException {
 
         if (product.getNumInInventory() >= quantity)
             return true;

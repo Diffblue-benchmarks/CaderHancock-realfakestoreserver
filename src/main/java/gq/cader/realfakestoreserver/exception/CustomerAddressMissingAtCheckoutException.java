@@ -1,6 +1,8 @@
 package gq.cader.realfakestoreserver.exception;
 
-public class CustomerAddressMissingAtCheckoutException extends RuntimeException {
+public class CustomerAddressMissingAtCheckoutException
+        extends RuntimeException {
+
     public CustomerAddressMissingAtCheckoutException() {
     }
 
@@ -8,7 +10,8 @@ public class CustomerAddressMissingAtCheckoutException extends RuntimeException 
         super(message);
     }
 
-    public CustomerAddressMissingAtCheckoutException(String message, Throwable cause) {
+    public CustomerAddressMissingAtCheckoutException(
+            String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -16,7 +19,10 @@ public class CustomerAddressMissingAtCheckoutException extends RuntimeException 
         super(cause);
     }
 
-    public CustomerAddressMissingAtCheckoutException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public CustomerAddressMissingAtCheckoutException(
+            String message, Throwable cause,
+            boolean enableSuppression, boolean writableStackTrace) {
+
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

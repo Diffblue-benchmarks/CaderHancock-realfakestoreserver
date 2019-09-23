@@ -20,9 +20,13 @@ public class ShoppingCartService {
         this.inventoryService = inventoryService;
     }
 
-    public void setProductQuantity(ShoppingCart shoppingCart, @NonNull Product product, @NonNull Integer quantity) {
+    public void setProductQuantity(
+            ShoppingCart shoppingCart, @NonNull Product product,
+            @NonNull Integer quantity) {
 
-        if (shoppingCart == null) shoppingCart = this.getEmptyCart();
+        if (shoppingCart == null) {
+            shoppingCart = this.getEmptyCart();
+        }
 
         if (inventoryService.verifyProductInventory(product, quantity)) {
             shoppingCart.getProductQuantityMap().put(product, quantity);
@@ -30,7 +34,9 @@ public class ShoppingCartService {
         }
     }
 
-    public Integer getProductQuantity(@NonNull ShoppingCart shoppingCart, @NonNull Product product) {
+    public Integer getProductQuantity(
+            @NonNull ShoppingCart shoppingCart, @NonNull Product product) {
+
         return shoppingCart.getProductQuantityMap()
                 .getOrDefault(product, 0);
     }
@@ -53,7 +59,8 @@ public class ShoppingCartService {
                         .entrySet()
                         .stream()
                         .filter(x -> x.getValue() > 0)
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey, Map.Entry::getValue)));
     }
 
     public ShoppingCart getEmptyCart() {

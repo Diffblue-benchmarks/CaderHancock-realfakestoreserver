@@ -18,8 +18,7 @@ import java.util.List;
 
 @Data
 @Entity
-public
-class Customer {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer customerId;
@@ -39,7 +38,8 @@ class Customer {
     @EqualsAndHashCode.Exclude
     private List<Address> addresses;
 
-    //TODO Figure out what annotation needed to force unique or one to one relationship
+    //TODO Figure out what annotation needed to
+    // force unique or one to one relationship
     @Email
     private String email;
 

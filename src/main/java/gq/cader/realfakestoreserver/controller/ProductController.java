@@ -20,7 +20,8 @@ import java.util.List;
 public class ProductController {
 
     private ProductService productService;
-    private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(ProductController.class);
 
     @Autowired
     public ProductController(ProductService productService) {

@@ -18,7 +18,10 @@ public class ProductInventoryException extends RuntimeException {
         super(cause);
     }
 
-    public ProductInventoryException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public ProductInventoryException(
+            String message, Throwable cause,
+            boolean enableSuppression, boolean writableStackTrace) {
+
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

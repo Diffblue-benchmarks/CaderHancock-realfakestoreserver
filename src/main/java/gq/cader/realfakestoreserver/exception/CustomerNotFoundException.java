@@ -20,7 +20,10 @@ public class CustomerNotFoundException extends RuntimeException {
         super(cause);
     }
 
-    public CustomerNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public CustomerNotFoundException(
+            String message, Throwable cause,
+            boolean enableSuppression, boolean writableStackTrace) {
+
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }
