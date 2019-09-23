@@ -30,8 +30,9 @@ public class InventoryService {
             Product product, Integer delta) throws ProductInventoryException {
 
         verifyProductInventory(product, delta);
-            product.setNumInInventory(product.getNumInInventory() - delta);
-            productService.putUpdatedProduct(product);
+        product.setNumInInventory(product.getNumInInventory() - delta);
+        productService.putUpdatedProduct(product);
+        LOG.info(product.getName() + " inventory successfully reduced by:" + delta);
     }
 
     protected Map<Product, Integer> previewProductQuantityMapForCheckout(@NonNull ShoppingCart shoppingCart) {
