@@ -14,7 +14,8 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProductService.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(ProductService.class);
     private final ProductRepository productRepository;
 
     @Autowired
@@ -47,8 +48,4 @@ public class ProductService {
                 .orElseThrow(ProductNotFoundException::new);
 
     }
-
-
-
-
 }

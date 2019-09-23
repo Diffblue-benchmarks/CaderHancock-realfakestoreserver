@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class InventoryService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InventoryService.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(InventoryService.class);
+
     private ProductService productService;
 
     @Autowired
@@ -25,16 +27,20 @@ public class InventoryService {
         verifyProductInventory(product, delta);
         product.setNumInInventory(product.getNumInInventory() - delta);
         productService.putUpdatedProduct(product);
-        LOG.info(product.getName() + " inventory successfully reduced by:" + delta);
+        LOG.info(product.getName() +
+                " inventory successfully reduced by:" + delta);
     }
 
-    protected Boolean verifyProductInventory(Product product, Integer quantity) throws ProductInventoryException {
+    protected Boolean verifyProductInventory(
+            Product product, Integer quantity) throws ProductInventoryException {
+
         if (product.getNumInInventory() >= quantity)
             return true;
         else
             throw new ProductInventoryException("Product ID:"
                     + product.getProductId() + ": " + product.getName()
-                    + " is not in sufficient stock to reduce inventory by " + quantity.toString());
+                    + " is not in sufficient stock to reduce inventory by "
+                    + quantity.toString());
 
 
     }
