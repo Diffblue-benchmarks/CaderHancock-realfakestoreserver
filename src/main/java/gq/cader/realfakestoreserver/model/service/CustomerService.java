@@ -20,7 +20,9 @@ public class CustomerService {
     private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository, ShoppingCartService shoppingCartService) {
+    public CustomerService(CustomerRepository customerRepository,
+                           ShoppingCartService shoppingCartService) {
+
         this.customerRepository = customerRepository;
         this.shoppingCartService = shoppingCartService;
     }

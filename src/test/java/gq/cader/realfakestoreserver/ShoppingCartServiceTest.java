@@ -58,7 +58,8 @@ public class ShoppingCartServiceTest {
         assertEquals(Integer.valueOf(50),
                 shoppingCartService.getProductQuantity(shoppingCart, product1));
 
-        //Given a cart with products, when inventory mutated, then duplicate map keys in cart not created
+        //Given a cart with products, when inventory mutated,
+        // then duplicate map keys in cart not created
         product1.setNumInInventory(100);
         shoppingCartService.setProductQuantity(shoppingCart, product1, 99);
         assertEquals(Double.valueOf(199.0), shoppingCartService.getSubtotalPrice(shoppingCart));
@@ -81,7 +82,8 @@ public class ShoppingCartServiceTest {
 
         @Bean
         public ShoppingCartService shoppingCartService() {
-            return new ShoppingCartService(new InventoryService(new ProductService(productRepository)));
+            return new ShoppingCartService(new InventoryService(
+                    new ProductService(productRepository)));
         }
     }
 
