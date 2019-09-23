@@ -33,7 +33,7 @@ public class ShoppingCartServiceTest {
     @Before
     public void setup() {
         product1.setPrice(1.0);
-        product1.setNumInInventory(99); //Set here to later check that mutation does not alter hashCode
+        product1.setNumInInventory(99);
         product1.setName("prod1");
 
         product2.setName("prod2");
@@ -48,11 +48,13 @@ public class ShoppingCartServiceTest {
         //Given cart with items subtotal is correctly calculated
         shoppingCartService.setProductQuantity(shoppingCart, product2, 1);
         shoppingCartService.setProductQuantity(shoppingCart, product1, 1);
-        assertEquals(Double.valueOf(2.0), shoppingCartService.getSubtotalPrice(shoppingCart));
+        assertEquals(Double.valueOf(2.0), shoppingCartService
+                .getSubtotalPrice(shoppingCart));
 
         shoppingCartService.setProductQuantity(shoppingCart, product1, 50);
         shoppingCartService.setProductQuantity(shoppingCart, product2, 100);
-        assertEquals(Double.valueOf(150.0), shoppingCartService.getSubtotalPrice(shoppingCart));
+        assertEquals(Double.valueOf(150.0), shoppingCartService
+                .getSubtotalPrice(shoppingCart));
 
         //Test getProductQuantity
         assertEquals(Integer.valueOf(50),
@@ -62,16 +64,17 @@ public class ShoppingCartServiceTest {
         // then duplicate map keys in cart not created
         product1.setNumInInventory(100);
         shoppingCartService.setProductQuantity(shoppingCart, product1, 99);
-        assertEquals(Double.valueOf(199.0), shoppingCartService.getSubtotalPrice(shoppingCart));
+        assertEquals(Double.valueOf(199.0), shoppingCartService
+                .getSubtotalPrice(shoppingCart));
 
 
         //Test that a cart can not add
         shoppingCart = shoppingCartService.getEmptyCart();
         product1.setNumInInventory(10);
-        assertThrows(
-                ProductInventoryException.class,
-                () ->
-                        shoppingCartService.setProductQuantity(shoppingCart, product1, 11));
+        assertThrows(ProductInventoryException.class,
+            () ->
+            shoppingCartService.setProductQuantity(
+                    shoppingCart, product1, 11));
 
     }
 
