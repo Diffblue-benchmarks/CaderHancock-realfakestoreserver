@@ -1,11 +1,12 @@
 package gq.cader.realfakestoreserver.model.service;
 
 import gq.cader.realfakestoreserver.exception.ProductInventoryException;
-import gq.cader.realfakestoreserver.exception.ProductNotFoundException;
 import gq.cader.realfakestoreserver.model.entity.Product;
 import gq.cader.realfakestoreserver.model.entity.ShoppingCart;
 
 import lombok.NonNull;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class InventoryService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(InventoryService.class);
     private ProductService productService;
 
     @Autowired
@@ -24,25 +26,12 @@ public class InventoryService {
         this.productService = productService;
     }
 
-    protected Product reduceProductInventoryByDelta(
-            Integer productId, Integer delta)
-            throws ProductNotFoundException, ProductInventoryException {
+    protected void reduceProductInventoryByDelta(
+            Product product, Integer delta) throws ProductInventoryException {
 
-        Product product = productService.findById(productId);
-
-
-        if (product.getNumInInventory() >= delta) {
-
+        verifyProductInventory(product, delta);
             product.setNumInInventory(product.getNumInInventory() - delta);
             productService.putUpdatedProduct(product);
-            return product;
-
-        } else {
-            throw new ProductInventoryException("Product ID:"
-                    + product.getProductId() + ": " + product.getName()
-                    + " is not in sufficient stock to reduce inventory by " + delta.toString());
-        }
-
     }
 
     protected Map<Product, Integer> previewProductQuantityMapForCheckout(@NonNull ShoppingCart shoppingCart) {
@@ -57,7 +46,9 @@ public class InventoryService {
         if (product.getNumInInventory() >= quantity)
             return true;
         else
-            throw new ProductInventoryException();
+            throw new ProductInventoryException("Product ID:"
+                    + product.getProductId() + ": " + product.getName()
+                    + " is not in sufficient stock to reduce inventory by " + quantity.toString());
 
 
     }

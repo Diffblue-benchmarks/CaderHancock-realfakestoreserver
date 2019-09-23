@@ -20,7 +20,6 @@ public class ShoppingCartService {
         this.inventoryService = inventoryService;
     }
 
-
     public void setProductQuantity(ShoppingCart shoppingCart, @NonNull Product product, @NonNull Integer quantity) {
 
         if (shoppingCart == null) shoppingCart = this.getEmptyCart();
@@ -30,6 +29,7 @@ public class ShoppingCartService {
             removeProductsWithZeroQuantity(shoppingCart);
         }
     }
+
     public Integer getProductQuantity(@NonNull ShoppingCart shoppingCart, @NonNull Product product) {
         return shoppingCart.getProductQuantityMap()
                 .getOrDefault(product, 0);
