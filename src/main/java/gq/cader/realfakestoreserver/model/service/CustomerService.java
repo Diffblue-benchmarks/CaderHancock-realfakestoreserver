@@ -17,15 +17,18 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final ShoppingCartService shoppingCartService;
+    private final CheckoutService checkoutService;
     private static final Logger LOG = LoggerFactory
             .getLogger(CustomerService.class);
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository,
-                           ShoppingCartService shoppingCartService) {
+                           ShoppingCartService shoppingCartService,
+                           CheckoutService checkoutService) {
 
         this.customerRepository = customerRepository;
         this.shoppingCartService = shoppingCartService;
+        this.checkoutService =checkoutService;
     }
 
     public Customer createCustomer(
@@ -49,8 +52,8 @@ public class CustomerService {
         }
     }
 
-    public void checkOutCustomer(Integer customerId) {
-        //TODO Implement this
+    public void checkOutCustomer(Customer customer) {
+        checkoutService.checkout(customer);
     }
 
     public @NonNull List<Customer> findAll() {
