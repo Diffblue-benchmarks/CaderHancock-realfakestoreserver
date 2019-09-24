@@ -21,16 +21,14 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @ManyToOne(targetEntity = Customer.class)
-    private Customer customer;
+    private final Customer customer;
     @Column(name = "PRODUCTS_IN_ORDER")
     @ElementCollection(targetClass = Integer.class)
-    private Map<Product, Integer> productQuantityMap;
+    private final Map<Product, Integer> productQuantityMap;
     @ManyToOne(targetEntity = Address.class)
-    private Address address;
+    private final Address address;
     @Column(name = "TIMESTAMP")
-    private Instant timeOrderReceived;
-    @Column(name = "SUBTOTAL")
-    private Double subTotal;
+    private final Instant timeOrderReceived;
 
     //TODO payment details, shipping info
 }

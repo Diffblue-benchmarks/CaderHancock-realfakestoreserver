@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class InventoryService {
 
@@ -20,7 +23,14 @@ public class InventoryService {
     public InventoryService(ProductService productService) {
         this.productService = productService;
     }
+    protected void reduceProductInventoryByDelta(
+        Map<Product,Integer> productQuantityMap){
 
+        productQuantityMap
+            .entrySet()
+            .stream().forEach(
+            x -> reduceProductInventoryByDelta(x.getKey(),x.getValue()));
+    }
     protected void reduceProductInventoryByDelta(
             Product product, Integer delta) throws ProductInventoryException {
 
@@ -34,6 +44,8 @@ public class InventoryService {
     protected Boolean verifyProductInventory(
             Product product, Integer quantity)
             throws ProductInventoryException {
+
+        product = productService.refresh(product);
 
         if (product.getNumInInventory() >= quantity) {
             return true;

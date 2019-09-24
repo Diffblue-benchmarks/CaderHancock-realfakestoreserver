@@ -34,6 +34,15 @@ public class ProductService {
                 .orElseThrow(ProductNotFoundException::new);
     }
 
+    /**
+     *
+     * @param product to refresh
+     * @return product with updated fields
+     */
+    public Product refresh(Product product){
+        return this.findById(product.getProductId());
+    }
+
     public Product postNewProduct(Product product) {
         return (productRepository.findByName(product.getName()).isPresent()) ?
                 productRepository.findByName(product.getName()).get()

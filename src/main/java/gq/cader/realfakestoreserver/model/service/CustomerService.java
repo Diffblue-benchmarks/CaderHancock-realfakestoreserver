@@ -39,6 +39,16 @@ public class CustomerService {
         return this.postNewCustomer(customer);
     }
 
+    public Customer postNewCustomer(Customer customer) {
+        if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
+            LOG.info("Customer: " + customer.toString() + " Already exists");
+            return customerRepository.findByEmail(customer.getEmail()).get();
+        } else {
+            LOG.info("Created Customer: " + customer.toString());
+            return customerRepository.save(customer);
+        }
+    }
+
     public void checkOutCustomer(Integer customerId) {
         //TODO Implement this
     }
@@ -63,15 +73,7 @@ public class CustomerService {
         return customerRepository.findByLastNameContainsIgnoreCase(name);
     }
 
-    public Customer postNewCustomer(Customer customer) {
-        if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
-            LOG.info("Customer: " + customer.toString() + " Already exists");
-            return customerRepository.findByEmail(customer.getEmail()).get();
-        } else {
-            LOG.info("Created Customer: " + customer.toString());
-            return customerRepository.save(customer);
 
-        }
-    }
+
 
 }
