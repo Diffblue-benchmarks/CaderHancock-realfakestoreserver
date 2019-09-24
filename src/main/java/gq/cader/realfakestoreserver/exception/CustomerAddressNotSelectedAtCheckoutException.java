@@ -1,4 +1,5 @@
 package gq.cader.realfakestoreserver.exception;
 
-public class CustomerAddressNotSelectedAtCheckoutException extends RuntimeException {
+public class CustomerAddressNotSelectedAtCheckoutException
+    extends RuntimeException {
 }

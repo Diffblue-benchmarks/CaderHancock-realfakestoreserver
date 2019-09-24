@@ -18,6 +18,8 @@ import java.util.Map;
 @Service
 public class CheckoutService {
 
+    private static final Logger LOG = LoggerFactory
+        .getLogger(CheckoutService.class);
     private final InventoryService inventoryService;
 
     @Autowired
@@ -25,8 +27,7 @@ public class CheckoutService {
         this.inventoryService = inventoryService;
     }
 
-    private static final Logger LOG = LoggerFactory
-        .getLogger(CheckoutService.class);
+
 
     public void checkout(Customer customer) throws
         CustomerAddressMissingAtCheckoutException,
@@ -47,11 +48,14 @@ public class CheckoutService {
         Instant timestamp =  Instant.now();
         Map<Product, Integer> orderProductQuantityMap =
             customer.getShoppingCart().getProductQuantityMap();
+        //TODO implement payment system and execute here
         inventoryService.reduceProductInventoryByDelta(orderProductQuantityMap);
 
         Order order = new Order(customer,orderProductQuantityMap,address,
             timestamp);
         customer.getOrders().add(order);
+        LOG.info("Customer:" + customer.getCustomerId() + " successfully " +
+            "checked out");
         return order; //to the universe
 
 
