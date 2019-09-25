@@ -1,7 +1,9 @@
 package gq.cader.realfakestoreserver.model.service;
 
-import gq.cader.realfakestoreserver.exception.CustomerAddressMissingAtCheckoutException;
-import gq.cader.realfakestoreserver.exception.CustomerAddressNotSelectedAtCheckoutException;
+import gq.cader.realfakestoreserver.exception.
+    CustomerAddressMissingAtCheckoutException;
+import gq.cader.realfakestoreserver.exception.
+    CustomerAddressNotSelectedAtCheckoutException;
 import gq.cader.realfakestoreserver.exception.ProductInventoryException;
 import gq.cader.realfakestoreserver.model.entity.Address;
 import gq.cader.realfakestoreserver.model.entity.Customer;
@@ -29,18 +31,22 @@ public class CheckoutService {
 
 
 
-    public void checkout(Customer customer) throws
+    public Order checkout(Customer customer) throws
         CustomerAddressMissingAtCheckoutException,
         CustomerAddressNotSelectedAtCheckoutException,
         ProductInventoryException {
 
-        if (customer.getAddresses().size() == 1){
-            checkout(customer, customer.getAddresses().get(0));
-        }else if(customer.getAddresses().size() > 1){
-            throw new CustomerAddressNotSelectedAtCheckoutException();
-        }else if (customer.getAddresses() == null){
+        if (customer.getAddresses() == null ||
+            customer.getAddresses().size() == 0){
+
             throw new CustomerAddressMissingAtCheckoutException();
+
+        }else if(customer.getAddresses().size() > 1){
+
+            throw new CustomerAddressNotSelectedAtCheckoutException();
+
         }
+        return checkout(customer, customer.getAddresses().get(0));
     }
     public Order checkout (Customer customer, Address address)
         throws ProductInventoryException{
@@ -54,6 +60,7 @@ public class CheckoutService {
         Order order = new Order(customer,orderProductQuantityMap,address,
             timestamp);
         customer.getOrders().add(order);
+        customer.getShoppingCart().getProductQuantityMap().clear();
         LOG.info("Customer:" + customer.getCustomerId() + " successfully " +
             "checked out");
         return order; //to the universe

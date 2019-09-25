@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -47,4 +48,10 @@ public class Customer {
     @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
     private List<Order> orders;
+
+    public Customer(){
+        shoppingCart = new ShoppingCart();
+        addresses = new ArrayList<>();
+        orders = new ArrayList<>();
+    }
 }

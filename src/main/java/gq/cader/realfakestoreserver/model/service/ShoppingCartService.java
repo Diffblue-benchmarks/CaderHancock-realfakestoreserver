@@ -21,12 +21,8 @@ public class ShoppingCartService {
     }
 
     public void setProductQuantity(
-            ShoppingCart shoppingCart, @NonNull Product product,
+            @NonNull ShoppingCart shoppingCart, @NonNull Product product,
             @NonNull Integer quantity) {
-
-        if (shoppingCart == null) {
-            shoppingCart = this.getEmptyCart();
-        }
 
         if (inventoryService.verifyProductInventory(product, quantity)) {
             shoppingCart.getProductQuantityMap().put(product, quantity);
@@ -53,7 +49,9 @@ public class ShoppingCartService {
     }
 
 
-    private void removeProductsWithZeroQuantity(ShoppingCart shoppingCart) {
+    private void removeProductsWithZeroQuantity(
+        @NonNull ShoppingCart shoppingCart) {
+
         shoppingCart.setProductQuantityMap(
                 shoppingCart.getProductQuantityMap()
                         .entrySet()
