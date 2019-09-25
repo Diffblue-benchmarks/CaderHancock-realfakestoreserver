@@ -28,15 +28,15 @@ public class ShoppingCartServiceTest {
     private ProductRepository productRepository;
     private ProductService productService =
         Mockito.spy(new ProductService(productRepository));
-    private InventoryService inventoryService;
 
     private ShoppingCartService shoppingCartService;
 
 
     @Before
     public void setup() {
-        inventoryService = new InventoryService(productService);
-        shoppingCartService = new ShoppingCartService(inventoryService);
+
+        shoppingCartService = new ShoppingCartService(
+            new InventoryService(productService));
         Mockito.doReturn(product1).when(productService).refresh(product1);
         Mockito.doReturn(product2).when(productService).refresh(product2);
 
