@@ -11,31 +11,38 @@ import gq.cader.realfakestoreserver.model.service.ShoppingCartService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
+import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @RunWith(SpringRunner.class)
-
 public class ShoppingCartServiceTest {
 
     private Product product1 = new Product();
     private Product product2 = new Product();
     private ShoppingCart shoppingCart = new ShoppingCart();
 
-    @Autowired
+    @MockBean
+    private ProductRepository productRepository;
+    private ProductService productService =
+        Mockito.spy(new ProductService(productRepository));
+    private InventoryService inventoryService;
+
     private ShoppingCartService shoppingCartService;
+
 
     @Before
     public void setup() {
-        product1.setPrice(1.0);
+        inventoryService = new InventoryService(productService);
+        shoppingCartService = new ShoppingCartService(inventoryService);
+        Mockito.doReturn(product1).when(productService).refresh(product1);
+        Mockito.doReturn(product2).when(productService).refresh(product2);
+
         product1.setNumInInventory(99);
         product1.setName("prod1");
+        product1.setPrice(1.0);
 
         product2.setName("prod2");
         product2.setPrice(1.0);
@@ -44,7 +51,6 @@ public class ShoppingCartServiceTest {
 
     @Test
     public void testCart() {
-
 
         //Given cart with items subtotal is correctly calculated
         shoppingCartService.setProductQuantity(shoppingCart, product2, 1);
@@ -68,7 +74,6 @@ public class ShoppingCartServiceTest {
         assertEquals(Double.valueOf(199.0), shoppingCartService
                 .getSubtotalPrice(shoppingCart));
 
-
         //Test that a cart can not add a quantity larger than inventory
         shoppingCart = shoppingCartService.getEmptyCart();
         product1.setNumInInventory(10);
@@ -76,19 +81,5 @@ public class ShoppingCartServiceTest {
             () ->
             shoppingCartService.setProductQuantity(
                     shoppingCart, product1, 11));
-
     }
-
-    @TestConfiguration
-    static class Configuration {
-        @MockBean
-        private ProductRepository productRepository;
-
-        @Bean
-        public ShoppingCartService shoppingCartService() {
-            return new ShoppingCartService(new InventoryService(
-                    new ProductService(productRepository)));
-        }
-    }
-
 }
