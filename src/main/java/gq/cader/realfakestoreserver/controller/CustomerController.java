@@ -1,6 +1,7 @@
 package gq.cader.realfakestoreserver.controller;
 
 import gq.cader.realfakestoreserver.model.entity.Customer;
+import gq.cader.realfakestoreserver.model.service.CheckoutService;
 import gq.cader.realfakestoreserver.model.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
 
     private CustomerService customerService;
+    private CheckoutService checkoutService;
 
     @Autowired
-    CustomerController(CustomerService customerService) {
+    CustomerController(CustomerService customerService,
+                       CheckoutService checkoutService) {
         this.customerService = customerService;
+        this.checkoutService = checkoutService;
     }
 
     @GetMapping(value = "findByCustomerId/{id}", produces = "application/json")
