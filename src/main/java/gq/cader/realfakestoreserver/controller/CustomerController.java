@@ -43,9 +43,9 @@ public class CustomerController {
             checkoutService.checkout(customer);
             return true;
         }catch(Exception e){
-           LOG.error(e.getMessage());
-           e.printStackTrace();
-           return false;
+            LOG.error(e.getMessage());
+            e.printStackTrace();
+            return false;
         }
     }
 }
