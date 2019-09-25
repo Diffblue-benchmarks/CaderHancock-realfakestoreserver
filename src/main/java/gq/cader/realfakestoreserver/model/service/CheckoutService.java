@@ -35,7 +35,7 @@ public class CheckoutService {
     public Order checkout(Customer customer) throws
         CustomerAddressMissingAtCheckoutException,
         CustomerAddressNotSelectedAtCheckoutException,
-        ProductInventoryException {
+        CheckoutFailedException {
 
         if (customer.getAddresses() == null ||
             customer.getAddresses().isEmpty()){

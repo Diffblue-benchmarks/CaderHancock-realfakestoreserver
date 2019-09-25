@@ -32,16 +32,13 @@ public class InventoryService {
 
         try {
             productQuantityMap
-                .entrySet()
-                .forEach(
-                    x -> {
-                        reduceProductInventoryByDelta(x.getKey(), x.getValue());
-                        stagedChanges.put(x.getKey(),x.getValue());
-                    });
+                .forEach((key, value) -> {
+                    reduceProductInventoryByDelta(key, value);
+                    stagedChanges.put(key, value);
+                });
         }catch (ProductInventoryException e){
-            stagedChanges.entrySet()
-                        .forEach(x -> increaseProductInventoryByDelta(
-                            x.getKey(),x.getValue()));
+            stagedChanges
+                .forEach(this::increaseProductInventoryByDelta);
             throw new CheckoutFailedException(e.getMessage());
         }
     }
@@ -66,7 +63,8 @@ public class InventoryService {
             Product product, Integer quantity)
             throws ProductInventoryException {
 
-        product = productService.refresh(product);
+        product.setNumInInventory(productService.refresh(product)
+            .getNumInInventory());
 
         if (product.getNumInInventory() >= quantity) {
             return true;

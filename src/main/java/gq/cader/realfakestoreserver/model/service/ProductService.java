@@ -51,8 +51,8 @@ public class ProductService {
                 productRepository.save(product);
     }
 
-    protected Product putUpdatedProduct(Product product) {
-        return productRepository.save(product);
+    protected void putUpdatedProduct(Product product) {
+        productRepository.save(product);
     }
 
     public List<Product> findByNameContains(String query) {
