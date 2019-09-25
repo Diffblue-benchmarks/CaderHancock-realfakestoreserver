@@ -1,5 +1,6 @@
 package gq.cader.realfakestoreserver.model.service;
 
+import gq.cader.realfakestoreserver.exception.CheckoutFailedException;
 import gq.cader.realfakestoreserver.exception.ProductInventoryException;
 import gq.cader.realfakestoreserver.model.entity.Product;
 
@@ -24,23 +25,24 @@ public class InventoryService {
         this.productService = productService;
     }
     protected void reduceProductInventoryByDelta(
-        Map<Product,Integer> productQuantityMap){
+        Map<Product,Integer> productQuantityMap)
+        throws CheckoutFailedException{
 
         Map<Product,Integer> stagedChanges = new HashMap<>();
 
         try {
             productQuantityMap
                 .entrySet()
-                .stream().forEach(
-                x -> {
-                    reduceProductInventoryByDelta(x.getKey(), x.getValue());
-                    stagedChanges.put(x.getKey(),x.getValue());
-                });
+                .forEach(
+                    x -> {
+                        reduceProductInventoryByDelta(x.getKey(), x.getValue());
+                        stagedChanges.put(x.getKey(),x.getValue());
+                    });
         }catch (ProductInventoryException e){
             stagedChanges.entrySet()
-                        .stream()
                         .forEach(x -> increaseProductInventoryByDelta(
                             x.getKey(),x.getValue()));
+            throw new CheckoutFailedException(e.getMessage());
         }
     }
     private void reduceProductInventoryByDelta(
@@ -74,7 +76,5 @@ public class InventoryService {
                     + " is not in sufficient stock to reduce inventory by "
                     + quantity.toString());
         }
-
-
     }
 }

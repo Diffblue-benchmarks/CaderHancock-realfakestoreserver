@@ -1,5 +1,6 @@
 package gq.cader.realfakestoreserver.model.service;
 
+import gq.cader.realfakestoreserver.exception.CheckoutFailedException;
 import gq.cader.realfakestoreserver.exception.
     CustomerAddressMissingAtCheckoutException;
 import gq.cader.realfakestoreserver.exception.
@@ -37,7 +38,7 @@ public class CheckoutService {
         ProductInventoryException {
 
         if (customer.getAddresses() == null ||
-            customer.getAddresses().size() == 0){
+            customer.getAddresses().isEmpty()){
 
             throw new CustomerAddressMissingAtCheckoutException();
 
@@ -49,7 +50,7 @@ public class CheckoutService {
         return checkout(customer, customer.getAddresses().get(0));
     }
     public Order checkout (Customer customer, Address address)
-        throws ProductInventoryException{
+        throws CheckoutFailedException {
 
         Instant timestamp =  Instant.now();
         Map<Product, Integer> orderProductQuantityMap =

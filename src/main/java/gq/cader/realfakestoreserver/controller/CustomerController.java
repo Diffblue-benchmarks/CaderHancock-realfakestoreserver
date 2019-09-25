@@ -3,6 +3,8 @@ package gq.cader.realfakestoreserver.controller;
 import gq.cader.realfakestoreserver.model.entity.Customer;
 import gq.cader.realfakestoreserver.model.service.CheckoutService;
 import gq.cader.realfakestoreserver.model.service.CustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/customers")
 public class CustomerController {
 
+    private static final Logger LOG =
+        LoggerFactory.getLogger(CustomerController.class);
     private CustomerService customerService;
     private CheckoutService checkoutService;
 
@@ -33,5 +37,15 @@ public class CustomerController {
     @PostMapping("/")
     public Customer postNewCustomer(@RequestBody Customer customer) {
         return customerService.postNewCustomer(customer);
+    }
+    public Boolean checkoutCustomer(Customer customer){
+        try{
+            checkoutService.checkout(customer);
+            return true;
+        }catch(Exception e){
+           LOG.error(e.getMessage());
+           e.printStackTrace();
+           return false;
+        }
     }
 }

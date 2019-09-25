@@ -1,7 +1,7 @@
 package gq.cader.realfakestoreserver.exception;
 
 public class CustomerAddressMissingAtCheckoutException
-        extends RuntimeException {
+        extends AddressException {
 
     public CustomerAddressMissingAtCheckoutException() {
     }
