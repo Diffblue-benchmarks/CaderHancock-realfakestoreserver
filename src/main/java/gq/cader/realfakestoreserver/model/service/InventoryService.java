@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -25,12 +26,24 @@ public class InventoryService {
     protected void reduceProductInventoryByDelta(
         Map<Product,Integer> productQuantityMap){
 
-        productQuantityMap
-            .entrySet()
-            .stream().forEach(
-                x -> reduceProductInventoryByDelta(x.getKey(),x.getValue()));
+        Map<Product,Integer> stagedChanges = new HashMap<>();
+
+        try {
+            productQuantityMap
+                .entrySet()
+                .stream().forEach(
+                x -> {
+                    reduceProductInventoryByDelta(x.getKey(), x.getValue());
+                    stagedChanges.put(x.getKey(),x.getValue());
+                });
+        }catch (ProductInventoryException e){
+            stagedChanges.entrySet()
+                        .stream()
+                        .forEach(x -> increaseProductInventoryByDelta(
+                            x.getKey(),x.getValue()));
+        }
     }
-    protected void reduceProductInventoryByDelta(
+    private void reduceProductInventoryByDelta(
             Product product, Integer delta) throws ProductInventoryException {
 
         verifyProductInventory(product, delta);
@@ -39,7 +52,14 @@ public class InventoryService {
         LOG.info(product.getName() +
                 " inventory successfully reduced by:" + delta);
     }
+    protected void increaseProductInventoryByDelta(
+        Product product, Integer delta) {
 
+        product.setNumInInventory(product.getNumInInventory() + delta);
+        productService.putUpdatedProduct(product);
+        LOG.info(product.getName() +
+            " inventory successfully increased by:" + delta);
+    }
     protected Boolean verifyProductInventory(
             Product product, Integer quantity)
             throws ProductInventoryException {
