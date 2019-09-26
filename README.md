@@ -23,6 +23,8 @@ GET
             
 /api/products/findByProductId/{int}
 
+/api/customers/addToCart/{customerId}/{productId}/{quantity}
+
 /api/customers/findByCustomerId/{int}
 
 /api/customers/checkout/{int customerId}

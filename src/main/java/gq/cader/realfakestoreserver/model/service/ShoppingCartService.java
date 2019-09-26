@@ -14,6 +14,7 @@ import java.util.stream.DoubleStream;
 public class ShoppingCartService {
     private InventoryService inventoryService;
 
+
     @Autowired
     public ShoppingCartService(InventoryService inventoryService) {
 

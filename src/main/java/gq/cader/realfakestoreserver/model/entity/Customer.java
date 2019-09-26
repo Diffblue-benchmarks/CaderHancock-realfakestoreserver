@@ -35,7 +35,7 @@ public class Customer {
     @EqualsAndHashCode.Exclude
     private ShoppingCart shoppingCart;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.ALL})
     @Column(name = "ADDRESSES")
     @EqualsAndHashCode.Exclude
     private List<Address> addresses;

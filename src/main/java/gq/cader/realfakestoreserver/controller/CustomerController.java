@@ -1,8 +1,12 @@
 package gq.cader.realfakestoreserver.controller;
 
 import gq.cader.realfakestoreserver.model.entity.Customer;
+import gq.cader.realfakestoreserver.model.entity.Product;
+import gq.cader.realfakestoreserver.model.entity.ShoppingCart;
 import gq.cader.realfakestoreserver.model.service.CheckoutService;
 import gq.cader.realfakestoreserver.model.service.CustomerService;
+import gq.cader.realfakestoreserver.model.service.ProductService;
+import gq.cader.realfakestoreserver.model.service.ShoppingCartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +25,18 @@ public class CustomerController {
         LoggerFactory.getLogger(CustomerController.class);
     private CustomerService customerService;
     private CheckoutService checkoutService;
+    private ProductService productService;
+    private ShoppingCartService shoppingCartService;
 
     @Autowired
     CustomerController(CustomerService customerService,
-                       CheckoutService checkoutService) {
+                       CheckoutService checkoutService,
+                       ProductService productService,
+                       ShoppingCartService shoppingCartService) {
         this.customerService = customerService;
         this.checkoutService = checkoutService;
+        this.productService =productService;
+        this.shoppingCartService =shoppingCartService;
     }
 
     @GetMapping(value = "findByCustomerId/{id}", produces = "application/json")
@@ -37,6 +47,23 @@ public class CustomerController {
     @PostMapping("/")
     public Customer postNewCustomer(@RequestBody Customer customer) {
         return customerService.postNewCustomer(customer);
+    }
+    @GetMapping(value = "/addToCart/{customerId}/{productId}/{quantity}")
+    public Boolean addProductToCart(@PathVariable Integer customerId,
+                                    @PathVariable Integer productId,
+                                    @PathVariable Integer quantity){
+        try{
+            Customer customer = customerService.findById(customerId);
+            ShoppingCart shoppingCart = customer.getShoppingCart();
+
+            Product product = productService.findById(productId);
+            shoppingCartService.setProductQuantity(shoppingCart,product,quantity);
+            customerService.save(customer);
+            return true;
+        }catch (Exception e){
+            LOG.error(e.getMessage());
+            return false;
+        }
     }
     @GetMapping(value = "checkout/{id}")
     public Boolean checkoutCustomer(@PathVariable Integer id){
