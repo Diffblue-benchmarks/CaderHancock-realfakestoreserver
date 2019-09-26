@@ -36,7 +36,7 @@ public class CheckoutService {
 
 
 
-    public Customer checkout(Customer customer) throws
+    public void checkout(Customer customer) throws
         CustomerAddressMissingAtCheckoutException,
         CustomerAddressNotSelectedAtCheckoutException,
         CheckoutFailedException {
@@ -51,14 +51,17 @@ public class CheckoutService {
             throw new CustomerAddressNotSelectedAtCheckoutException();
 
         }
-        return checkout(customer, customer.getAddresses().get(0));
+       checkout(customer, customer.getAddresses().get(0));
     }
-    public Customer checkout (Customer customer, Address address)
+    public void checkout (Customer customer, Address address)
         throws CheckoutFailedException {
 
         Instant timestamp =  Instant.now();
         Map<Product, Integer> orderProductQuantityMap =
             customer.getShoppingCart().getProductQuantityMap();
+        if(orderProductQuantityMap.isEmpty()){
+            throw new CheckoutFailedException("Cannot Checkout Empty Cart");
+        }
         //TODO implement payment system and execute here
         inventoryService.reduceProductInventoryByDelta(orderProductQuantityMap);
 
@@ -69,7 +72,6 @@ public class CheckoutService {
         customerService.save(customer);
         LOG.info("Customer:" + customer.getCustomerId() + " successfully " +
             "checked out");
-        return customer; //to the universe
 
 
     }

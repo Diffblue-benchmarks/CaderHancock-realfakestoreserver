@@ -47,7 +47,6 @@ public class CustomerController {
             return true;
         }catch(Exception e){
             LOG.error(e.getMessage());
-            e.printStackTrace();
             return false;
         }
     }
