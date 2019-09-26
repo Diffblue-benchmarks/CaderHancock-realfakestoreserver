@@ -38,9 +38,12 @@ public class CustomerController {
     public Customer postNewCustomer(@RequestBody Customer customer) {
         return customerService.postNewCustomer(customer);
     }
-    public Boolean checkoutCustomer(Customer customer){
+    @GetMapping(value = "checkout/{id}")
+    public Boolean checkoutCustomer(@PathVariable Integer id){
+        Customer customer;
         try{
-            checkoutService.checkout(customer);
+            customer = customerService.findById(id);
+           checkoutService.checkout(customer);
             return true;
         }catch(Exception e){
             LOG.error(e.getMessage());

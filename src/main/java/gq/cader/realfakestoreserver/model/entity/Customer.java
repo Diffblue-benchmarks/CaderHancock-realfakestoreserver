@@ -3,6 +3,7 @@ package gq.cader.realfakestoreserver.model.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -30,7 +31,7 @@ public class Customer {
     @Column(name = "LAST_NAME")
     private String lastName;
 
-    @OneToOne
+    @OneToOne(cascade= {CascadeType.ALL})
     @EqualsAndHashCode.Exclude
     private ShoppingCart shoppingCart;
 
@@ -45,7 +46,8 @@ public class Customer {
     private String email;
 
     @ElementCollection(targetClass = Order.class)
-    @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY,
+        cascade= {CascadeType.ALL})
     @EqualsAndHashCode.Exclude
     private List<Order> orders;
 

@@ -26,8 +26,8 @@ public class InventoryServiceTest {
 
     @MockBean
     private ProductRepository productRepository;
-    private ProductServiceMock productService =
-        Mockito.spy(new ProductServiceMock(productRepository));
+    private MockProductService productService =
+        Mockito.spy(new MockProductService(productRepository));
     private TestableInventoryService inventoryService =
         new TestableInventoryService(productService);
 
@@ -37,9 +37,9 @@ public class InventoryServiceTest {
 
     //We need to stub and call protected/private methods for this test, hence
     // the local classes
-    private class ProductServiceMock extends ProductService{
+    private class MockProductService extends ProductService{
         public Set<Product> mockRepo = new HashSet<>();
-        public ProductServiceMock(ProductRepository productRepository) {
+        public MockProductService(ProductRepository productRepository) {
             super(productRepository);
         }
         @Override

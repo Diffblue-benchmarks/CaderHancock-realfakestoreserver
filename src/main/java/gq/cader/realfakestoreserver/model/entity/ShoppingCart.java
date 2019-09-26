@@ -20,9 +20,11 @@ public class ShoppingCart {
     private Integer id;
     @ElementCollection(targetClass = Integer.class)
     @MapKeyColumn(name = "PRODUCT")
+
     private Map<Product, Integer> productQuantityMap;
 
     public ShoppingCart() {
         productQuantityMap = new HashMap<>();
     }
+
 }

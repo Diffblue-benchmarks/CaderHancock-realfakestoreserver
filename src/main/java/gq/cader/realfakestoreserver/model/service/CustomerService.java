@@ -17,18 +17,16 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final ShoppingCartService shoppingCartService;
-    private final CheckoutService checkoutService;
     private static final Logger LOG = LoggerFactory
             .getLogger(CustomerService.class);
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository,
-                           ShoppingCartService shoppingCartService,
-                           CheckoutService checkoutService) {
+                           ShoppingCartService shoppingCartService) {
 
         this.customerRepository = customerRepository;
         this.shoppingCartService = shoppingCartService;
-        this.checkoutService =checkoutService;
+
     }
 
     public Customer createCustomer(
@@ -51,11 +49,6 @@ public class CustomerService {
             return customerRepository.save(customer);
         }
     }
-
-    public void checkOutCustomer(Customer customer) {
-        checkoutService.checkout(customer);
-    }
-
     public @NonNull List<Customer> findAll() {
         return customerRepository.findAll();
     }
@@ -75,8 +68,7 @@ public class CustomerService {
     public List<Customer> findByLastName(String name) {
         return customerRepository.findByLastNameContainsIgnoreCase(name);
     }
-
-
-
-
+    public void save(Customer customer){
+        customerRepository.save(customer);
+    }
 }
