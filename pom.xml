@@ -10,7 +10,7 @@
     </parent>
     <groupId>gq.cader</groupId>
     <artifactId>realfakestoreserver</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1-ALPHA</version>
     <name>realfakestoreserver</name>
     <description>Backend for RealFakeStore</description>
 
