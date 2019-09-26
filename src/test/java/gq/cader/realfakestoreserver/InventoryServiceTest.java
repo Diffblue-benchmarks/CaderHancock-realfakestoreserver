@@ -24,6 +24,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class InventoryServiceTest {
 
+    @MockBean
+    private ProductRepository productRepository;
+    private ProductServiceMock productService =
+        Mockito.spy(new ProductServiceMock(productRepository));
+    private TestableInventoryService inventoryService =
+        new TestableInventoryService(productService);
+
+    private Product product1 = new Product();
+    private Product product2 = new Product();
+    private Map<Product, Integer> mockShoppingCart = new HashMap<>();
+
     //We need to stub and call protected/private methods for this test, hence
     // the local classes
     private class ProductServiceMock extends ProductService{
@@ -52,16 +63,7 @@ public class InventoryServiceTest {
             super.reduceProductInventoryByDelta(productQuantityMap);}
     }
 
-    @MockBean
-    private ProductRepository productRepository;
-    private ProductServiceMock productService =
-        Mockito.spy(new ProductServiceMock(productRepository));
-    private TestableInventoryService inventoryService =
-        new TestableInventoryService(productService);
 
-    private Product product1 = new Product();
-    private Product product2 = new Product();
-    private Map<Product, Integer> mockShoppingCart = new HashMap<>();
 
 
 
@@ -70,12 +72,10 @@ public class InventoryServiceTest {
 
         Mockito.doReturn(product1).when(productService).refresh(product1);
         Mockito.doReturn(product2).when(productService).refresh(product2);
-
-
-
     }
 
     private void reset() {
+
         product1.setNumInInventory(99);
         product1.setName("prod1");
         product1.setPrice(1.0);
@@ -88,10 +88,12 @@ public class InventoryServiceTest {
     }
     @Test
     public void whenSufficientInventory_thenCorrectlyReduced(){
+
         reset();
         mockShoppingCart.put(product1,99);
         mockShoppingCart.put(product2,100);
-        Product result1,result2;
+        Product result1,
+                result2;
         inventoryService.reduceProductInventoryByDelta(mockShoppingCart);
         result1 =
             productService.mockRepo.stream().filter(x -> x.getName().equals(
@@ -104,6 +106,7 @@ public class InventoryServiceTest {
     }
     @Test
     public void whenInsufficientInventory_thenThrowException(){
+
         reset();
         mockShoppingCart.put(product1, 100);
         assertThrows(Exception.class, () ->
@@ -111,6 +114,7 @@ public class InventoryServiceTest {
     }
     @Test
     public void whenPartialInventory_thenNoMutation(){
+
         reset();
         mockShoppingCart.put(product1, 98);
         mockShoppingCart.put(product2,101);
