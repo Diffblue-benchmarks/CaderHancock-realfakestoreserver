@@ -64,7 +64,9 @@ public class CustomerController {
             ShoppingCart shoppingCart = customer.getShoppingCart();
 
             Product product = productService.findById(productId);
-            shoppingCartService.setProductQuantity(shoppingCart,product,quantity);
+            shoppingCartService.setProductQuantity(
+                shoppingCart,product,quantity);
+
             customerService.save(customer);
             return true;
         }catch (Exception e){
@@ -77,7 +79,7 @@ public class CustomerController {
         Customer customer;
         try{
             customer = customerService.findById(id);
-           checkoutService.checkout(customer);
+            checkoutService.checkout(customer);
             return "Success";
         }catch(Exception e){
             LOG.error(e.getMessage());

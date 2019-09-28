@@ -3,7 +3,13 @@ package gq.cader.realfakestoreserver.model.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MapKeyColumn;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.DoubleStream;
@@ -26,9 +32,9 @@ public class ShoppingCart {
         productQuantityMap = new HashMap<>();
     }
     public Double getSubtotal(){
-       return productQuantityMap.entrySet().stream()
-            .flatMapToDouble(
-            x -> DoubleStream.of(x.getKey().getPrice() * x.getValue()))
+        return productQuantityMap.entrySet().stream()
+            .flatMapToDouble(x -> DoubleStream.of(
+                x.getKey().getPrice() * x.getValue()))
             .sum();
     }
 

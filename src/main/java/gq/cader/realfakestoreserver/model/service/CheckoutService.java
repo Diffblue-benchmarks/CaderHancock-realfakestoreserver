@@ -51,7 +51,7 @@ public class CheckoutService {
             throw new CustomerAddressNotSelectedAtCheckoutException();
 
         }
-       checkout(customer, customer.getAddresses().get(0));
+        checkout(customer, customer.getAddresses().get(0));
     }
     public void checkout (Customer customer, Address address)
         throws CheckoutFailedException {

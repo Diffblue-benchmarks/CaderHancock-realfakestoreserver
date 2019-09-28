@@ -39,6 +39,3 @@ POST
 /products/{product json}
  
 /customers/{customer json}
-
-    
-
