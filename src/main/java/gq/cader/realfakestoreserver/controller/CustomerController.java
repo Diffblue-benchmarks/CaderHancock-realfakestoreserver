@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("api/customers")
+@RequestMapping("customers")
 public class CustomerController {
 
     private static final Logger LOG =
@@ -39,16 +41,21 @@ public class CustomerController {
         this.shoppingCartService =shoppingCartService;
     }
 
-    @GetMapping(value = "findByCustomerId/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json")
     public Customer findByCustomerId(@PathVariable Integer id) {
         return customerService.findById(id);
+    }
+
+    @GetMapping("/")
+    public List<Customer> getAllCustomers(){
+        return customerService.findAll();
     }
 
     @PostMapping("/")
     public Customer postNewCustomer(@RequestBody Customer customer) {
         return customerService.postNewCustomer(customer);
     }
-    @GetMapping(value = "/addToCart/{customerId}/{productId}/{quantity}")
+    @GetMapping(value = "/{customerId}/addToCart/{productId}/{quantity}")
     public Boolean addProductToCart(@PathVariable Integer customerId,
                                     @PathVariable Integer productId,
                                     @PathVariable Integer quantity){
@@ -65,16 +72,16 @@ public class CustomerController {
             return false;
         }
     }
-    @GetMapping(value = "checkout/{id}")
-    public Boolean checkoutCustomer(@PathVariable Integer id){
+    @GetMapping(value = "/{id}/checkout")
+    public String checkoutCustomer(@PathVariable Integer id){
         Customer customer;
         try{
             customer = customerService.findById(id);
            checkoutService.checkout(customer);
-            return true;
+            return "Success";
         }catch(Exception e){
             LOG.error(e.getMessage());
-            return false;
+            return e.getMessage();
         }
     }
 }

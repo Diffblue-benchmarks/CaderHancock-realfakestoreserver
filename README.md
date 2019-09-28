@@ -20,23 +20,25 @@ Things to checkout:
 
 GET
 
-/api/products/search/{caseInsensitiveString}
+/products/search/{caseInsensitiveString}
              
-/api/products/all/
+/products
             
-/api/products/findByProductId/{int}
+/products/{productId}
 
-/api/customers/addToCart/{customerId}/{productId}/{quantity}
+/customers
 
-/api/customers/findByCustomerId/{int}
+/customers/{customerId}/addToCart/{productId}/{quantity}
 
-/api/customers/checkout/{int customerId}
+/customers/{customerId}
+
+/customers/{customerId}/checkout
 
 POST 
        
- /api/products/{product json}
+/products/{product json}
  
- /api/customers/{customer json}
+/customers/{customer json}
 
     
 

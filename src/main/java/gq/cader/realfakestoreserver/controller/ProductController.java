@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/products")
+@RequestMapping("products")
 public class ProductController {
 
     private ProductService productService;
@@ -27,7 +27,7 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
-    @GetMapping(value = "/findByProductId/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json")
     public Product findByProductId(@PathVariable Integer id) {
 
         return productService.findById(id);
@@ -43,7 +43,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping(value = "/all", produces = "application/json")
+    @GetMapping(value = "/", produces = "application/json")
     public List<Product> getAll() {
         return productService.findAll();
     }
