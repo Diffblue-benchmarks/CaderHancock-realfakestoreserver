@@ -22,6 +22,7 @@ import java.util.List;
 @Entity
 public class Customer {
     @Id
+    @EqualsAndHashCode.Exclude
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer customerId;
 

@@ -1,6 +1,7 @@
 package gq.cader.realfakestoreserver.model.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.stream.DoubleStream;
 public class ShoppingCart {
 
     @Id
+    @EqualsAndHashCode.Exclude
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ElementCollection(targetClass = Integer.class)

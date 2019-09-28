@@ -1,6 +1,7 @@
 package gq.cader.realfakestoreserver.model.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import java.time.Instant;
 @Data
 public class Order {
     @Id
+    @EqualsAndHashCode.Exclude
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @OneToOne(cascade= {CascadeType.ALL})
@@ -26,6 +28,7 @@ public class Order {
     private  Address address;
     @Column(name = "TIMESTAMP")
     private  Instant timeOrderReceived;
+
 
     public Order(){}
     public Order(ShoppingCart shoppingCart,

@@ -16,6 +16,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Entity
 public class Product {
     @Id
+    @EqualsAndHashCode.Exclude
     @GeneratedValue(strategy = AUTO)
     private Integer productId;
     @Column(name = "NAME")

@@ -1,6 +1,7 @@
 package gq.cader.realfakestoreserver.model.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 @Entity
 public class Address {
     @Id
+    @EqualsAndHashCode.Exclude
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer addressId;
     @Column(name = "STREET_ADDRESS")
