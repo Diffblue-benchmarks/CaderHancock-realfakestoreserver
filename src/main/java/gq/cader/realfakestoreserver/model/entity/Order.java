@@ -28,7 +28,8 @@ public class Order {
     private  Address address;
     @Column(name = "TIMESTAMP")
     private  Instant timeOrderReceived;
-
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     public Order(){}
     public Order(ShoppingCart shoppingCart,
@@ -37,6 +38,7 @@ public class Order {
         this.address = address;
         this.shoppingCart= shoppingCart;
         this.timeOrderReceived =   instant;
+        this.status = OrderStatus.PENDING;
     }
 
     //TODO payment details, shipping info
