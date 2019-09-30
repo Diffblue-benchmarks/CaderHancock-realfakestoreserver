@@ -48,8 +48,9 @@ public class ProductController {
         return productService.findAll();
     }
 
-    @PostMapping("/")
+    @PostMapping(value = "/", consumes = "application/json")
     public Product postNewProduct(@RequestBody Product product) {
+        LOG.info("POSTing new " + product.toString());
         return productService.postNewProduct(product);
     }
 

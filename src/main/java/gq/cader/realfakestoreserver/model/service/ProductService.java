@@ -45,10 +45,16 @@ public class ProductService {
     }
 
     public Product postNewProduct(@NotNull Product product) {
-        return productRepository.findByName(product.getName()).isPresent() ?
-                productRepository.findByName(product.getName()).get()
-                :
-                productRepository.save(product);
+        if (productRepository.findByName(product.getName()).isPresent()){
+            Product duplicate = productRepository.findByName(
+
+                product.getName()).get();
+
+            LOG.warn("Detected duplicate product during post attempt. \n" +
+                duplicate.toString());
+           return duplicate;
+        }else {
+           return productRepository.save(product);}
     }
 
     protected void putUpdatedProduct(Product product) {
