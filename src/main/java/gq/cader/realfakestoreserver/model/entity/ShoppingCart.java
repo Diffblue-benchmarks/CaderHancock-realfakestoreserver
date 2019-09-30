@@ -19,13 +19,14 @@ import java.util.stream.DoubleStream;
 public class ShoppingCart {
 
     @Id
-    @EqualsAndHashCode.Exclude
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ElementCollection(targetClass = Integer.class)
     @MapKeyColumn(name = "PRODUCT")
+    @EqualsAndHashCode.Exclude
     private Map<Product, Integer> productQuantityMap;
     @Column(name = "SUBTOTAL")
+    @EqualsAndHashCode.Exclude
     private Double subtotal;
 
     public ShoppingCart() {
