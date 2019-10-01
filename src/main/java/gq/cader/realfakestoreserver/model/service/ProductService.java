@@ -52,9 +52,9 @@ public class ProductService {
 
             LOG.warn("Detected duplicate product during post attempt. \n" +
                 duplicate.toString());
-           return duplicate;
+            return duplicate;
         }else {
-           return productRepository.save(product);}
+            return productRepository.save(product);}
     }
 
     protected void putUpdatedProduct(Product product) {

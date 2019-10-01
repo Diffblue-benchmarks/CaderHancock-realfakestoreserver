@@ -3,7 +3,17 @@ package gq.cader.realfakestoreserver.model.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.time.Instant;
 
 @Entity
@@ -33,6 +43,7 @@ public class Order {
         this.shoppingCart= shoppingCart;
         this.timeOrderReceived =   instant;
         this.status = OrderStatus.PENDING;
+        this.customerId = customerId;
     }
 
     //TODO payment details, shipping info
