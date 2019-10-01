@@ -16,26 +16,27 @@ Requires JDK 11
 
 To build and launch, run build.sh in the project root. 
 
-Things to checkout: 
+Things to checkout (If posting a new product or creating a new customer, comment out everything in data.sql)
 
 GET
 
-/products/search/{caseInsensitiveString}
+api/products/search/{caseInsensitiveString}
              
-/products
+api/products
             
-/products/{productId}
+api/products/{productId}
 
-/customers
+api/customers
 
-/customers/{customerId}/addToCart/{productId}/{quantity}
+api/customers/{customerId}/addToCart/{productId}/{quantity}
 
-/customers/{customerId}
+api/customers/{customerId}
 
-/customers/{customerId}/checkout
+api/customers/{customerId}/checkout
+
+api/customers/create/{firstname}/{lastname}/{email}
 
 POST 
        
 /products/{product json}
  
-/customers/{customer json}
