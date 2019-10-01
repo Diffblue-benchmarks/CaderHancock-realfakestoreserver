@@ -1,10 +1,7 @@
 package gq.cader.realfakestoreserver.model.service;
 
+import gq.cader.realfakestoreserver.exception.AddressException;
 import gq.cader.realfakestoreserver.exception.CheckoutFailedException;
-import gq.cader.realfakestoreserver.exception.
-    CustomerAddressMissingAtCheckoutException;
-import gq.cader.realfakestoreserver.exception.
-    CustomerAddressNotSelectedAtCheckoutException;
 import gq.cader.realfakestoreserver.model.entity.Address;
 import gq.cader.realfakestoreserver.model.entity.Customer;
 import gq.cader.realfakestoreserver.model.entity.Order;
@@ -18,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.Map;
 
+/**
+ * The type Checkout service.
+ */
 @Service
 public class CheckoutService {
 
@@ -27,6 +27,12 @@ public class CheckoutService {
     private final CustomerService customerService;
 
 
+    /**
+     * Instantiates a new Checkout service.
+     *
+     * @param inventoryService the inventory service
+     * @param customerService  the customer service
+     */
     @Autowired
     public CheckoutService(InventoryService inventoryService,
                            CustomerService customerService){
@@ -35,28 +41,45 @@ public class CheckoutService {
     }
 
 
-
+    /**
+     * @param customer the customer
+     * @throws AddressException
+     * @throws CheckoutFailedException
+     */
     public void checkout(Customer customer) throws
-        CustomerAddressMissingAtCheckoutException,
-        CustomerAddressNotSelectedAtCheckoutException,
+        AddressException,
         CheckoutFailedException {
 
         if (customer.getAddresses() == null ||
             customer.getAddresses().isEmpty()){
 
-            throw new CustomerAddressMissingAtCheckoutException("Address " +
+            throw new AddressException("Address " +
                 "Missing");
 
         }else if(customer.getAddresses().size() > 1){
 
-            throw new CustomerAddressNotSelectedAtCheckoutException("Address " +
+            throw new AddressException("Address " +
                 "Not Selected");
 
         }
         checkout(customer, customer.getAddresses().get(0));
     }
+
+    /**
+     * Checkout.
+     *
+     * @param customer the customer
+     * @param address  the address
+     * @throws CheckoutFailedException the checkout failed exception
+     */
     public void checkout (Customer customer, Address address)
         throws CheckoutFailedException {
+
+        if (!customer.getAddresses().contains(address)){
+            throw new CheckoutFailedException("Address:" +
+                address.getAddressId() + "does not belong to Customer:"
+                + customer.getCustomerId());
+        }
 
         Instant timestamp =  Instant.now();
         Map<Product, Integer> orderProductQuantityMap =
@@ -67,8 +90,8 @@ public class CheckoutService {
         //TODO implement payment system and execute here
         inventoryService.reduceProductInventoryByDelta(orderProductQuantityMap);
 
-        Order order = new Order(customer.getCustomerId().intValue(),
-            customer.getShoppingCart(),address,
+        Order order = new Order(customer.getCustomerId(),
+            customer.getShoppingCart(), address,
             timestamp);
         customer.getOrders().add(order);
         customer.setShoppingCart(new ShoppingCart());

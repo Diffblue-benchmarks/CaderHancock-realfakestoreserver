@@ -61,9 +61,4 @@ public class ShoppingCartService {
                         .collect(Collectors.toMap(
                                 Map.Entry::getKey, Map.Entry::getValue)));
     }
-
-    public ShoppingCart getEmptyCart() {
-        return new ShoppingCart();
-    }
-
 }
