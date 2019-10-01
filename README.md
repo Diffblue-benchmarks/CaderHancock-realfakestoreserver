@@ -20,9 +20,9 @@ Things to checkout (If posting a new product or creating a new customer, comment
 
 GET
 
-api/products/search/{caseInsensitiveString}
-             
 api/products
+
+api/products/search/{caseInsensitiveString}
             
 api/products/{productId}
 
@@ -31,6 +31,8 @@ api/customers
 api/customers/{customerId}/addToCart/{productId}/{quantity}
 
 api/customers/{customerId}
+
+api/customers/{customerId}/addresses/add/{Street%20Address}/{City}/{PostalCode}/{State}/{Country}
 
 api/customers/{customerId}/checkout
 
