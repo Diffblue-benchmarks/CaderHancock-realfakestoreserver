@@ -46,14 +46,14 @@ public class ProductService {
 
     public Product postNewProduct(@NotNull Product product) {
         if (productRepository.findByName(product.getName()).isPresent()){
-            Product duplicate = productRepository.findByName(
 
+            Product alreadyExistingProduct = productRepository.findByName(
                 product.getName()).get();
-
             LOG.warn("Detected duplicate product during post attempt. \n" +
-                duplicate.toString());
-            return duplicate;
-        }else {
+                alreadyExistingProduct.toString());
+            return alreadyExistingProduct;
+
+        } else {
             return productRepository.save(product);}
     }
 
