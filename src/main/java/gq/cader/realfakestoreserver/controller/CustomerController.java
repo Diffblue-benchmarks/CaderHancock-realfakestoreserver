@@ -1,5 +1,6 @@
 package gq.cader.realfakestoreserver.controller;
 
+import gq.cader.realfakestoreserver.model.entity.Address;
 import gq.cader.realfakestoreserver.model.entity.Customer;
 import gq.cader.realfakestoreserver.model.entity.Product;
 import gq.cader.realfakestoreserver.model.entity.ShoppingCart;
@@ -49,15 +50,27 @@ public class CustomerController {
         return customerService.findAll();
     }
 
-    /*@PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Customer postNewCustomer(@RequestBody Customer customer) {
-        return customerService.postNewCustomer(customer);
-    }*/
+
     @GetMapping(value = "/create/{firstName}/{lastName}/{email}")
     public Customer createCustomer(@PathVariable String firstName,
                                    @PathVariable String lastName,
                                    @PathVariable String email){
         return customerService.save(new Customer(firstName, lastName, email));
+    }
+    @GetMapping(value = "/{id}/addresses/add/{streetAddress}/{city" +
+        "}/{postalCode}/{state}/{country}")
+    public Customer addAddress(@PathVariable Integer id,
+                               @PathVariable String streetAddress,
+                               @PathVariable String city,
+                               @PathVariable String postalCode,
+                               @PathVariable String state,
+                               @PathVariable String country){
+
+        Customer customer = customerService.findById(id);
+        Address address = new Address(streetAddress,city,postalCode,state,
+            country);
+        customer.getAddresses().add(address);
+        return customerService.save(customer);
     }
     @GetMapping(value = "/{customerId}/addToCart/{productId}/{quantity}")
     public Boolean addProductToCart(@PathVariable Integer customerId,

@@ -2,6 +2,7 @@ package gq.cader.realfakestoreserver.model.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Address {
     @Id
     @EqualsAndHashCode.Exclude
@@ -26,4 +28,14 @@ public class Address {
     private String state;
     @Column(name = "COUNTRY")
     private String country;
+
+    public Address(String streetAddress, String city, String postalCode,
+                   String state, String country){
+        this.streetAddress = streetAddress;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.state = state;
+        this.country = country;
+    }
+
 }
