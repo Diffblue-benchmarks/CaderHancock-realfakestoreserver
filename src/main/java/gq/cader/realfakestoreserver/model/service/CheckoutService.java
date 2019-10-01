@@ -44,11 +44,13 @@ public class CheckoutService {
         if (customer.getAddresses() == null ||
             customer.getAddresses().isEmpty()){
 
-            throw new CustomerAddressMissingAtCheckoutException();
+            throw new CustomerAddressMissingAtCheckoutException("Address " +
+                "Missing");
 
         }else if(customer.getAddresses().size() > 1){
 
-            throw new CustomerAddressNotSelectedAtCheckoutException();
+            throw new CustomerAddressNotSelectedAtCheckoutException("Address " +
+                "Not Selected");
 
         }
         checkout(customer, customer.getAddresses().get(0));
@@ -65,7 +67,8 @@ public class CheckoutService {
         //TODO implement payment system and execute here
         inventoryService.reduceProductInventoryByDelta(orderProductQuantityMap);
 
-        Order order = new Order(customer.getShoppingCart(),address,
+        Order order = new Order(customer.getCustomerId().intValue(),
+            customer.getShoppingCart(),address,
             timestamp);
         customer.getOrders().add(order);
         customer.setShoppingCart(new ShoppingCart());

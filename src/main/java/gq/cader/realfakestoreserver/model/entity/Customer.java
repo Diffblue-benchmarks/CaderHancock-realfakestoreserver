@@ -57,4 +57,10 @@ public class Customer {
         addresses = new ArrayList<>();
         orders = new ArrayList<>();
     }
+    public Customer(String firstName, String lastName, String email){
+        this();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email =    email;
+    }
 }

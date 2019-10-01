@@ -68,8 +68,9 @@ public class CustomerService {
     public List<Customer> findByLastName(String name) {
         return customerRepository.findByLastNameContainsIgnoreCase(name);
     }
-    public void save(Customer customer){
-        customerRepository.save(customer);
+    public Customer save(Customer customer){
+        return customerRepository.save(customer);
+
     }
 
 }

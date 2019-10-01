@@ -10,6 +10,7 @@ import gq.cader.realfakestoreserver.model.service.ShoppingCartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,9 +52,15 @@ public class CustomerController {
         return customerService.findAll();
     }
 
-    @PostMapping("/")
+    /*@PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Customer postNewCustomer(@RequestBody Customer customer) {
         return customerService.postNewCustomer(customer);
+    }*/
+    @GetMapping(value = "/create/{firstName}/{lastName}/{email}")
+    public Customer createCustomer(@PathVariable String firstName,
+                                   @PathVariable String lastName,
+                                   @PathVariable String email){
+        return customerService.save(new Customer(firstName, lastName, email));
     }
     @GetMapping(value = "/{customerId}/addToCart/{productId}/{quantity}")
     public Boolean addProductToCart(@PathVariable Integer customerId,
