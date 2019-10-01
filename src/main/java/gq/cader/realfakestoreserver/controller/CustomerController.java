@@ -4,6 +4,7 @@ import gq.cader.realfakestoreserver.model.entity.Address;
 import gq.cader.realfakestoreserver.model.entity.Customer;
 import gq.cader.realfakestoreserver.model.entity.Product;
 import gq.cader.realfakestoreserver.model.entity.ShoppingCart;
+import gq.cader.realfakestoreserver.model.service.AddressService;
 import gq.cader.realfakestoreserver.model.service.CheckoutService;
 import gq.cader.realfakestoreserver.model.service.CustomerService;
 import gq.cader.realfakestoreserver.model.service.ProductService;
@@ -28,16 +29,19 @@ public class CustomerController {
     private CheckoutService checkoutService;
     private ProductService productService;
     private ShoppingCartService shoppingCartService;
+    private AddressService addressService;
 
     @Autowired
     CustomerController(CustomerService customerService,
                        CheckoutService checkoutService,
                        ProductService productService,
-                       ShoppingCartService shoppingCartService) {
+                       ShoppingCartService shoppingCartService,
+                       AddressService addressService) {
         this.customerService = customerService;
         this.checkoutService = checkoutService;
         this.productService =productService;
         this.shoppingCartService =shoppingCartService;
+        this.addressService = addressService;
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
@@ -50,13 +54,13 @@ public class CustomerController {
         return customerService.findAll();
     }
 
-
     @GetMapping(value = "/create/{firstName}/{lastName}/{email}")
     public Customer createCustomer(@PathVariable String firstName,
                                    @PathVariable String lastName,
                                    @PathVariable String email){
         return customerService.save(new Customer(firstName, lastName, email));
     }
+
     @GetMapping(value = "/{id}/addresses/add/{streetAddress}/{city" +
         "}/{postalCode}/{state}/{country}")
     public Customer addAddress(@PathVariable Integer id,
@@ -67,11 +71,12 @@ public class CustomerController {
                                @PathVariable String country){
 
         Customer customer = customerService.findById(id);
-        Address address = new Address(streetAddress,city,postalCode,state,
+        Address address = new Address(streetAddress, city, postalCode, state,
             country);
         customer.getAddresses().add(address);
         return customerService.save(customer);
     }
+
     @GetMapping(value = "/{customerId}/addToCart/{productId}/{quantity}")
     public Boolean addProductToCart(@PathVariable Integer customerId,
                                     @PathVariable Integer productId,
@@ -79,8 +84,8 @@ public class CustomerController {
         try{
             Customer customer = customerService.findById(customerId);
             ShoppingCart shoppingCart = customer.getShoppingCart();
-
             Product product = productService.findById(productId);
+
             shoppingCartService.setProductQuantity(
                 shoppingCart,product,quantity);
 
@@ -91,12 +96,28 @@ public class CustomerController {
             return false;
         }
     }
+
     @GetMapping(value = "/{id}/checkout")
     public String checkoutCustomer(@PathVariable Integer id){
         Customer customer;
         try{
             customer = customerService.findById(id);
             checkoutService.checkout(customer);
+            return "Success";
+        }catch(Exception e){
+            LOG.error(e.getMessage());
+            return e.getMessage();
+        }
+    }
+
+    @GetMapping(value = "/{id}/checkout/address/{addressId}")
+    public String checkoutCustomer(@PathVariable Integer id,
+                                   @PathVariable Integer addressId){
+
+        try{
+            Customer customer = customerService.findById(id);
+            Address address = addressService.findById(addressId);
+            checkoutService.checkout(customer, address);
             return "Success";
         }catch(Exception e){
             LOG.error(e.getMessage());

@@ -75,7 +75,7 @@ public class ShoppingCartServiceTest {
                 .getSubtotalPrice(shoppingCart));
 
         //Test that a cart can not add a quantity larger than inventory
-        shoppingCart = shoppingCartService.getEmptyCart();
+        shoppingCart.getProductQuantityMap().clear();
         product1.setNumInInventory(10);
         assertThrows(ProductInventoryException.class,
             () ->

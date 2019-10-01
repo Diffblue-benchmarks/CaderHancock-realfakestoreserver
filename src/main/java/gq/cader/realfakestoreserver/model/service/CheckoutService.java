@@ -45,24 +45,27 @@ public class CheckoutService {
      * @param customer the customer
      * @throws AddressException
      * @throws CheckoutFailedException
+     * @return
      */
-    public void checkout(Customer customer) throws
+    public Order checkout(Customer customer) throws
         AddressException,
         CheckoutFailedException {
 
         if (customer.getAddresses() == null ||
             customer.getAddresses().isEmpty()){
 
-            throw new AddressException("Address " +
-                "Missing");
+            throw new AddressException("Address Missing");
 
         }else if(customer.getAddresses().size() > 1){
-
-            throw new AddressException("Address " +
-                "Not Selected");
+            StringBuilder avaliableAddresses = new StringBuilder();
+            customer.getAddresses().forEach(address ->
+                avaliableAddresses.append("Id:" + address.getAddressId() + " "
+                    + address.getStreetAddress() + "\r\n"));
+            throw new AddressException("Address Not Selected. Avaliable " +
+                "Options:\r\n" + avaliableAddresses);
 
         }
-        checkout(customer, customer.getAddresses().get(0));
+        return checkout(customer, customer.getAddresses().get(0));
     }
 
     /**
@@ -71,8 +74,9 @@ public class CheckoutService {
      * @param customer the customer
      * @param address  the address
      * @throws CheckoutFailedException the checkout failed exception
+     * @return
      */
-    public void checkout (Customer customer, Address address)
+    public Order checkout (Customer customer, Address address)
         throws CheckoutFailedException {
 
         if (!customer.getAddresses().contains(address)){
@@ -98,6 +102,7 @@ public class CheckoutService {
         customerService.save(customer);
         LOG.info("Customer:" + customer.getCustomerId() + " successfully " +
             "checked out");
+        return order;
 
 
     }
